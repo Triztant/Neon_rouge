@@ -718,7 +718,7 @@ function selectUser(id, clickedRow = null) {
   const targetRow = clickedRow || document.querySelector(`[data-id="${id}"]`);
 
   // collapse if the same name is tapped again
-  if (activeUserId === id && panel.classList.contains("visible")) {
+  if (activeUserId === id) {
     if (isMobile) {
       panel.style.maxHeight = `${panel.scrollHeight}px`;
 
@@ -753,6 +753,7 @@ function selectUser(id, clickedRow = null) {
   panel.style.display = "block";
   panel.classList.remove("visible");
   panel.style.maxHeight = isMobile ? "0px" : "";
+  panel.innerHTML = "";
 
   if (isMobile && targetRow) {
     targetRow.insertAdjacentElement("afterend", panel);
