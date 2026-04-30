@@ -705,76 +705,102 @@ users.forEach((user, i) => {
 
 let activeEmbedArea = null;
 let activeUserId = null;
+const mobilePanels = new Map();
 
 function selectUser(id, clickedRow = null) {
   const user = users.find(u => u.id === id);
   if (!user) return;
 
-  const panel = document.getElementById("panel");
   const isMobile = window.innerWidth <= 720;
   const empty = document.getElementById("empty");
+  const activeRow = document.querySelector(`[data-id="${id}"]`);
+  const targetRow = clickedRow || activeRow;
+
   empty.style.display = "none";
 
-  const targetRow = clickedRow || document.querySelector(`[data-id="${id}"]`);
+  if (isMobile && targetRow) {
+    let panel = mobilePanels.get(id);
 
-  // collapse if the same name is tapped again
-  if (activeUserId === id) {
-    if (isMobile) {
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.className = "panel";
+      panel.dataset.userId = id;
+      panel.style.display = "none";
+      panel.innerHTML = buildPanel(user);
+      mobilePanels.set(id, panel);
+    }
+
+    if (panel.dataset.animating === "true") return;
+
+    const isOpen = panel.classList.contains("visible");
+
+    if (isOpen) {
+      panel.dataset.animating = "true";
       panel.style.maxHeight = `${panel.scrollHeight}px`;
 
       requestAnimationFrame(() => {
         panel.classList.remove("visible");
         panel.style.maxHeight = "0px";
       });
-    } else {
-      panel.classList.remove("visible");
+
+      targetRow.classList.remove("active");
+
+      window.setTimeout(() => {
+        panel.style.display = "none";
+        panel.style.maxHeight = "";
+        panel.dataset.animating = "false";
+      }, 760);
+
+      return;
     }
 
+    targetRow.classList.add("active");
+    targetRow.insertAdjacentElement("afterend", panel);
+
+    panel.dataset.animating = "true";
+    panel.style.display = "block";
+    panel.style.maxHeight = "0px";
+    panel.classList.remove("visible");
+
+    requestAnimationFrame(() => {
+      panel.classList.add("visible");
+      panel.style.maxHeight = `${panel.scrollHeight}px`;
+
+      window.setTimeout(() => {
+        panel.style.maxHeight = "none";
+        panel.dataset.animating = "false";
+      }, 760);
+    });
+
+    return;
+  }
+
+  const panel = document.getElementById("panel");
+
+  if (activeUserId === id && panel.classList.contains("visible")) {
+    panel.classList.remove("visible");
     document.querySelectorAll(".user-row").forEach(r => r.classList.remove("active"));
     activeUserId = null;
 
     window.setTimeout(() => {
       panel.style.display = "none";
       panel.innerHTML = "";
-      panel.style.maxHeight = "";
-      document.getElementById("main").appendChild(panel);
-    }, isMobile ? 760 : 420);
+    }, 420);
 
     return;
   }
 
-  // update sidebar active state
   document.querySelectorAll(".user-row").forEach(r => r.classList.remove("active"));
-  const activeRow = document.querySelector(`[data-id="${id}"]`);
   if (activeRow) activeRow.classList.add("active");
-
   activeUserId = id;
 
+  panel.dataset.userId = id;
   panel.style.display = "block";
   panel.classList.remove("visible");
-  panel.style.maxHeight = isMobile ? "0px" : "";
-  panel.innerHTML = "";
+  panel.innerHTML = buildPanel(user);
+  document.getElementById("main").appendChild(panel);
 
-  if (isMobile && targetRow) {
-    targetRow.insertAdjacentElement("afterend", panel);
-  } else {
-    document.getElementById("main").appendChild(panel);
-  }
-
-  // slight delay for fade
-  requestAnimationFrame(() => {
-    panel.innerHTML = buildPanel(user);
-
-    if (isMobile) {
-      panel.style.maxHeight = "0px";
-      requestAnimationFrame(() => {
-        panel.classList.add("visible");
-        panel.style.maxHeight = `${panel.scrollHeight}px`;
-      });
-    } else {
-      requestAnimationFrame(() => panel.classList.add("visible"));
-    }
-  });
+  requestAnimationFrame(() => panel.classList.add("visible"));
 }
 
 function buildPanel(user) {
@@ -797,11 +823,11 @@ function buildPanel(user) {
       </div>
     </div>
 
-    <div class="embed-area" id="embed-area">
-      <iframe id="spotify-embed" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <div class="embed-area">
+      <iframe class="spotify-embed" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
 
-    <ul class="tracklist" id="tracklist">
+    <ul class="tracklist">
       ${trackItems}
     </ul>
 
@@ -818,33 +844,39 @@ function buildPanel(user) {
 /* ─────────────────────────────────────────────
    TRACK CLICK → EMBED
 ───────────────────────────────────────────── */
-document.getElementById("panel").addEventListener("click", e => {
+document.addEventListener("click", e => {
   const track = e.target.closest(".track");
   if (!track) return;
 
+  const panel = track.closest(".panel");
+  if (!panel) return;
+
   const index = parseInt(track.dataset.index);
   const url = track.dataset.url;
-  const type = track.dataset.type;
-  const user = users.find(u => u.id === document.querySelector(".user-row.active")?.dataset.id);
+  const user = users.find(u => u.id === panel.dataset.userId);
   if (!user) return;
 
   const t = user.tracks[index];
   const embedUrl = buildEmbedUrl(t);
 
-  const embedArea = document.getElementById("embed-area");
-  const iframe = document.getElementById("spotify-embed");
+  const embedArea = panel.querySelector(".embed-area");
+  const iframe = panel.querySelector(".spotify-embed");
 
   if (embedUrl) {
     iframe.src = embedUrl;
     embedArea.classList.add("active");
     embedArea.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+    if (window.innerWidth <= 720) {
+      panel.style.maxHeight = `${panel.scrollHeight}px`;
+    }
   } else {
     // fallback: open in new tab
     window.open(url, "_blank");
   }
 
-  // highlight active track
-  document.querySelectorAll(".track").forEach(r => r.style.fontWeight = "");
+  // highlight active track inside this panel only
+  panel.querySelectorAll(".track").forEach(r => r.style.fontWeight = "");
   track.style.fontWeight = "500";
 });
 
@@ -854,3 +886,4 @@ document.getElementById("panel").addEventListener("click", e => {
 </script>
 </body>
 </html>
+
