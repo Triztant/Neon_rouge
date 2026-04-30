@@ -357,15 +357,14 @@
         opacity: 0;
         transform: translateY(-12px);
         transition:
-          max-height 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-          padding-top 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-          padding-bottom 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-          opacity 0.45s ease,
-          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+          max-height 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+          padding-top 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+          padding-bottom 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.5s ease,
+          transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       .sidebar .panel.visible {
-        max-height: 1200px;
         padding-top: 20px;
         padding-bottom: 20px;
         opacity: 1;
@@ -703,27 +702,51 @@ users.forEach((user, i) => {
 /* ─────────────────────────────────────────────
    SELECT USER
 ───────────────────────────────────────────── */
+
 let activeEmbedArea = null;
+let activeUserId = null;
 
 function selectUser(id, clickedRow = null) {
   const user = users.find(u => u.id === id);
   if (!user) return;
+
+  const panel = document.getElementById("panel");
+  const isMobile = window.innerWidth <= 720;
+  const empty = document.getElementById("empty");
+  empty.style.display = "none";
+
+  const targetRow = clickedRow || document.querySelector(`[data-id="${id}"]`);
+
+  // mobile collapse if already open
+  if (isMobile && activeUserId === id && panel.classList.contains("visible")) {
+    panel.style.maxHeight = `${panel.scrollHeight}px`;
+    requestAnimationFrame(() => {
+      panel.classList.remove("visible");
+      panel.style.maxHeight = "0px";
+    });
+
+    document.querySelectorAll(".user-row").forEach(r => r.classList.remove("active"));
+    activeUserId = null;
+
+    window.setTimeout(() => {
+      panel.style.display = "none";
+      panel.innerHTML = "";
+      document.getElementById("main").appendChild(panel);
+    }, 760);
+
+    return;
+  }
 
   // update sidebar active state
   document.querySelectorAll(".user-row").forEach(r => r.classList.remove("active"));
   const activeRow = document.querySelector(`[data-id="${id}"]`);
   if (activeRow) activeRow.classList.add("active");
 
-  // build panel
-  const panel = document.getElementById("panel");
-  const empty = document.getElementById("empty");
-  empty.style.display = "none";
-
-  const isMobile = window.innerWidth <= 720;
-  const targetRow = clickedRow || activeRow;
+  activeUserId = id;
 
   panel.style.display = "block";
   panel.classList.remove("visible");
+  panel.style.maxHeight = isMobile ? "0px" : "";
 
   if (isMobile && targetRow) {
     targetRow.insertAdjacentElement("afterend", panel);
@@ -734,7 +757,16 @@ function selectUser(id, clickedRow = null) {
   // slight delay for fade
   requestAnimationFrame(() => {
     panel.innerHTML = buildPanel(user);
-    requestAnimationFrame(() => panel.classList.add("visible"));
+
+    if (isMobile) {
+      panel.style.maxHeight = "0px";
+      requestAnimationFrame(() => {
+        panel.classList.add("visible");
+        panel.style.maxHeight = `${panel.scrollHeight}px`;
+      });
+    } else {
+      requestAnimationFrame(() => panel.classList.add("visible"));
+    }
   });
 }
 
