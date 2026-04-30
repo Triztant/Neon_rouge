@@ -9,30 +9,6 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    @font-face {
-      font-family: 'Suisse Intl';
-      src: url('./Suisse_Intl_Book.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'Suisse Intl';
-      src: url('./Suisse_Intl_Medium.ttf') format('truetype');
-      font-weight: 500;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'Suisse Intl';
-      src: url('./Suisse_Intl_Bold.ttf') format('truetype');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-
     :root {
       --bg: #f5f4f0;
       --surface: #ebebе5;
@@ -47,7 +23,7 @@
       --accent-pink: #d4607a;
       --accent-yellow: #c8a840;
       --radius: 14px;
-      --font: 'Suisse Intl', 'DM Sans', sans-serif;
+      --font: 'DM Sans', sans-serif;
       --mono: 'DM Mono', monospace;
     }
 
@@ -369,7 +345,11 @@
       }
 
       .main {
-        padding: 16px 14px 32px;
+        display: none;
+      }
+
+      .sidebar .panel {
+        margin: 8px 0 14px;
       }
 
       .panel {
@@ -400,26 +380,25 @@
 <header>
   <div class="logo-mark">⬡</div>
   <div class="logo-text">
-    <span>neon</span>
-    <span>vert</span>
+    <span>NEON</span>
+    <span>ROUGE</span>
   </div>
   <nav>
-    <button>About</button>
-    <button>Submit</button>
+    <button>MANFESTO</button>
   </nav>
 </header>
 
 <div class="layout">
   <!-- LEFT -->
   <aside class="sidebar" id="sidebar">
-    <p class="sidebar-label">Curated sets</p>
+    <p class="sidebar-label"></p>
     <!-- populated by JS -->
   </aside>
 
   <!-- RIGHT -->
   <main class="main" id="main">
     <div class="empty-state" id="empty">
-      ← select an artist
+     
     </div>
     <div class="panel" id="panel" style="display:none"></div>
   </main>
@@ -696,8 +675,8 @@ users.forEach((user, i) => {
     <span class="user-name">${user.name}</span>
     <span class="user-date">${user.date}</span>
   `;
-  row.addEventListener("click", () => selectUser(user.id));
-  row.addEventListener("keydown", e => { if (e.key === "Enter") selectUser(user.id); });
+  row.addEventListener("click", () => selectUser(user.id, row));
+  row.addEventListener("keydown", e => { if (e.key === "Enter") selectUser(user.id, row); });
   sidebar.appendChild(row);
 });
 
@@ -706,7 +685,7 @@ users.forEach((user, i) => {
 ───────────────────────────────────────────── */
 let activeEmbedArea = null;
 
-function selectUser(id) {
+function selectUser(id, clickedRow = null) {
   const user = users.find(u => u.id === id);
   if (!user) return;
 
@@ -720,19 +699,23 @@ function selectUser(id) {
   const empty = document.getElementById("empty");
   empty.style.display = "none";
 
+  const isMobile = window.innerWidth <= 720;
+  const targetRow = clickedRow || activeRow;
+
   panel.style.display = "block";
   panel.classList.remove("visible");
+
+  if (isMobile && targetRow) {
+    targetRow.insertAdjacentElement("afterend", panel);
+  } else {
+    document.getElementById("main").appendChild(panel);
+  }
 
   // slight delay for fade
   requestAnimationFrame(() => {
     panel.innerHTML = buildPanel(user);
     requestAnimationFrame(() => panel.classList.add("visible"));
   });
-
-  // on mobile, scroll to main
-  if (window.innerWidth <= 720) {
-    document.getElementById("main").scrollIntoView({ behavior: "smooth" });
-  }
 }
 
 function buildPanel(user) {
