@@ -3,11 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neon Vert</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <title>Ariadne’s Thread</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @font-face {
+      font-family: 'Suisse Intl Bold';
+      src: url('./fonts/Suisse_Intl_Bold.ttf') format('truetype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
 
     :root {
       --bg: #f5f4f0;
@@ -23,8 +29,8 @@
       --accent-pink: #d4607a;
       --accent-yellow: #c8a840;
       --radius: 14px;
-      --font: 'DM Sans', sans-serif;
-      --mono: 'DM Mono', monospace;
+      --font: 'Suisse Intl Bold', sans-serif;
+      --mono: 'Suisse Intl Bold', sans-serif;
     }
 
     html, body {
@@ -46,7 +52,6 @@
       align-items: center;
       gap: 12px;
       background: var(--bg);
-      border-bottom: 1px solid var(--border);
     }
 
     .logo-mark {
@@ -68,8 +73,9 @@
     .logo-text span { display: block; }
 
     nav {
+      display: flex;
+      gap: 6px;
       margin-left: auto;
-      display: flex; gap: 6px;
     }
 
     nav button {
@@ -243,6 +249,36 @@
       background: rgba(0,0,0,0.07);
     }
 
+    .track.active {
+      background: #111;
+      color: #fff;
+    }
+
+    .track.active .track-num,
+    .track.active .track-title {
+      color: #fff;
+    }
+
+    .track.active .track-play {
+      opacity: 1;
+      border-color: rgba(255,255,255,0.35);
+    }
+
+    .track.active .track-play svg {
+      fill: #fff;
+    }
+
+    .track.active .track-play svg polygon {
+      display: none;
+    }
+
+    .track.active .track-play::before {
+      content: "Ⅱ";
+      font-size: 10px;
+      line-height: 1;
+      color: #fff;
+    }
+
     .track-num {
       font-family: var(--mono);
       font-size: 10px;
@@ -270,23 +306,54 @@
 
     .track:hover .track-play { opacity: 1; }
 
+
     .track-play svg { width: 9px; height: 9px; fill: var(--text); }
+
+    .track-copy {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 0;
+      font-family: var(--font);
+      font-size: 10px;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .track:hover .track-copy,
+    .track.active .track-copy {
+      opacity: 1;
+    }
+
+    .track-copy:hover {
+      color: var(--text);
+    }
+
+    .track.active .track-copy {
+      color: #fff;
+    }
+
+    .track.active .track-copy:hover {
+      color: rgba(255,255,255,0.7);
+    }
 
     /* embed area */
     .embed-area {
-      margin-top: 16px;
-      margin-bottom: 20px;
-      border-radius: 12px;
+      width: 0;
+      height: 0;
+      opacity: 0;
       overflow: hidden;
-      display: none;
+      pointer-events: none;
+      position: absolute;
     }
 
-    .embed-area.active { display: block; }
-
     .embed-area iframe {
-      width: 100%;
+      width: 0;
+      height: 0;
       border: none;
-      border-radius: 12px;
     }
 
     /* panel footer */
@@ -313,6 +380,20 @@
       text-align: right;
       white-space: nowrap;
       line-height: 1.8;
+    }
+
+    .manifesto-panel {
+      max-width: 520px;
+    }
+
+    .manifesto-text {
+      font-size: 15px;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+    }
+
+    .manifesto-text p + p {
+      margin-top: 14px;
     }
 
     /* empty state */
@@ -394,37 +475,69 @@
 
       .panel {
         max-width: 100%;
-        padding: 20px 18px;
+        padding: 6px 18px 20px;
       }
 
       .panel-header {
-        flex-direction: column;
-        gap: 8px;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0px;
+        margin-bottom: 6px;
       }
 
-      .panel-meta-top { text-align: left; }
+      .panel-artist {
+        flex: 1;
+        margin-top: 0;
+        line-height: 1.1;
+      }
+
+      .panel-meta-top {
+        text-align: left;
+        padding-top: 0;
+        margin-top: 0;
+        min-width: 120px;
+        line-height: 1.1;
+      }
 
       .panel-footer {
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
       }
 
       .panel-stats { text-align: left; }
 
-      nav { display: none; }
+      .track-copy {
+        opacity: 1;
+        padding: 0;
+      }
+      nav {
+        display: flex;
+        margin-left: auto;
+      }
+
+      nav button {
+        padding: 5px 10px;
+        font-size: 11px;
+      }
+
+      .manifesto-panel {
+        margin: 8px 14px 14px;
+      }
     }
   </style>
 </head>
 <body>
+<audio id="audio-player" preload="none"></audio>
 
 <header>
   <div class="logo-mark">⬡</div>
   <div class="logo-text">
-    <span>NEON</span>
-    <span>ROUGE</span>
+    <span>Ariadne’s</span>
+    <span>Thread</span>
   </div>
   <nav>
-    <button>MANFESTO</button>
+    <button id="manifesto-button" type="button">MANFESTO</button>
   </nav>
 </header>
 
@@ -432,6 +545,11 @@
   <!-- LEFT -->
   <aside class="sidebar" id="sidebar">
     <p class="sidebar-label"></p>
+    <div class="panel manifesto-panel" id="manifesto-panel" style="display:none">
+      <div class="manifesto-text">
+        <p>The problem isn’t people discovering new music — it’s how they’re discovering it. Recommendation engines have become blunt tools for something that’s actually quite delicate, optimised for engagement instead of experience. They don’t understand the feeling of finding a track that really hits, and over time they’ve flattened taste into the same loop. This is a simple alternative: a place to share music directly, person to person. No labels, no push, no algorithm — just ten tracks, chosen and passed on because they’re actually worth it.</p>
+      </div>
+    </div>
     <!-- populated by JS -->
   </aside>
 
@@ -447,8 +565,8 @@
 <script>
 /* ─────────────────────────────────────────────
    DATA
-   Each track has: title, url (Spotify/SC/YT/etc), type
-   type: "spotify_track" | "spotify_album" | "soundcloud" | "youtube" | "url"
+   Each track has: title, url
+   Use local MP3 paths, for example: "./audio/clay.mp3"
 ───────────────────────────────────────────── */
 const users = [
   {
@@ -461,7 +579,7 @@ const users = [
     uploadDate: "2026-03-19",
     description: "Here's ten sounds I've been sitting with this week. A mix of things I keep coming back to late night, walking, in-between moments. Felt right to put them together.",
     tracks: [
-      { title: "Clay", url: "https://open.spotify.com/track/2GiJYvgVaD2HtM8GqD9f5x", type: "spotify_track" },
+      { title: "Clay", url: "./audio/clay.mp3" },
       { title: "Sandy Riviera", url: "https://open.spotify.com/track/3n3oP3RGg6GtAi5EHGxBF2", type: "spotify_track" },
       { title: "Twfghtl", url: "https://open.spotify.com/track/6UwsVIeUFYJRTmBcGkMTuA", type: "spotify_track" },
       { title: "VoiceRecording 29/02/22", url: "https://open.spotify.com/track/7qiZfU4dY1lWllzX7mPBI3", type: "spotify_track" },
@@ -681,17 +799,8 @@ function formatDate(str) {
   return str;
 }
 
-function getSpotifyTrackId(url) {
-  const m = url.match(/track\/([A-Za-z0-9]+)/);
-  return m ? m[1] : null;
-}
-
-function buildEmbedUrl(track) {
-  if (track.type === "spotify_track") {
-    const id = getSpotifyTrackId(track.url);
-    return id ? `https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0` : null;
-  }
-  return null;
+function isAudioFile(url) {
+  return /\.(mp3|wav|ogg|m4a)(\?.*)?$/i.test(url);
 }
 
 /* ─────────────────────────────────────────────
@@ -727,6 +836,7 @@ users.forEach((user, i) => {
 let activeEmbedArea = null;
 let activeUserId = null;
 const mobilePanels = new Map();
+let manifestoOpen = false;
 
 function selectUser(id, clickedRow = null) {
   const user = users.find(u => u.id === id);
@@ -828,9 +938,10 @@ function selectUser(id, clickedRow = null) {
 
 function buildPanel(user) {
   const trackItems = user.tracks.map((t, i) => `
-    <li class="track" data-index="${i}" data-url="${t.url}" data-type="${t.type}">
+    <li class="track" data-index="${i}" data-url="${t.url}">
       <span class="track-num">${String(i + 1).padStart(2, "0")}</span>
       <span class="track-title">${t.title}</span>
+      <button class="track-copy" type="button" data-copy="${t.title} — ${user.name}">COPY</button>
       <span class="track-play">
         <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
       </span>
@@ -844,10 +955,6 @@ function buildPanel(user) {
         ${user.role}<br>
         ${user.location}
       </div>
-    </div>
-
-    <div class="embed-area">
-      <iframe class="spotify-embed" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
 
     <ul class="tracklist">
@@ -865,6 +972,30 @@ function buildPanel(user) {
 }
 
 /* ─────────────────────────────────────────────
+   COPY SONG + ARTIST
+───────────────────────────────────────────── */
+document.addEventListener("click", async e => {
+  const copyBtn = e.target.closest(".track-copy");
+  if (!copyBtn) return;
+
+  e.stopPropagation();
+
+  const text = copyBtn.dataset.copy;
+
+  try {
+    await navigator.clipboard.writeText(text);
+    const original = copyBtn.textContent;
+    copyBtn.textContent = "COPIED";
+
+    window.setTimeout(() => {
+      copyBtn.textContent = original;
+    }, 900);
+  } catch (error) {
+    console.warn("Could not copy text", error);
+  }
+});
+
+/* ─────────────────────────────────────────────
    TRACK CLICK → EMBED
 ───────────────────────────────────────────── */
 document.addEventListener("click", e => {
@@ -875,35 +1006,104 @@ document.addEventListener("click", e => {
   if (!panel) return;
 
   const index = parseInt(track.dataset.index);
-  const url = track.dataset.url;
   const user = users.find(u => u.id === panel.dataset.userId);
   if (!user) return;
 
   const t = user.tracks[index];
-  const embedUrl = buildEmbedUrl(t);
+  const audio = document.getElementById("audio-player");
+  const wasActive = track.classList.contains("active");
 
-  const embedArea = panel.querySelector(".embed-area");
-  const iframe = panel.querySelector(".spotify-embed");
+  document.querySelectorAll(".track").forEach(r => {
+    r.classList.remove("active");
+    r.style.fontWeight = "";
+  });
 
-  if (embedUrl) {
-    iframe.src = embedUrl;
-    embedArea.classList.add("active");
-    embedArea.scrollIntoView({ behavior: "smooth", block: "nearest" });
-
-    if (window.innerWidth <= 720) {
-      panel.style.maxHeight = `${panel.scrollHeight}px`;
-    }
-  } else {
-    // fallback: open in new tab
-    window.open(url, "_blank");
+  if (wasActive) {
+    audio.pause();
+    audio.currentTime = 0;
+    return;
   }
 
-  // highlight active track inside this panel only
-  panel.querySelectorAll(".track").forEach(r => r.style.fontWeight = "");
+  if (!isAudioFile(t.url)) {
+    console.warn("This track needs a local audio file, for example ./audio/song-name.mp3", t.url);
+    return;
+  }
+
+  audio.src = t.url;
+  audio.play();
+
+  track.classList.add("active");
   track.style.fontWeight = "500";
 });
 
+const audioPlayer = document.getElementById("audio-player");
+audioPlayer.addEventListener("ended", () => {
+  document.querySelectorAll(".track").forEach(r => {
+    r.classList.remove("active");
+    r.style.fontWeight = "";
+  });
+});
+
  
+
+/* ─────────────────────────────────────────────
+   MANIFESTO PANEL
+───────────────────────────────────────────── */
+const manifestoButton = document.getElementById("manifesto-button");
+const manifestoPanel = document.getElementById("manifesto-panel");
+
+manifestoButton.addEventListener("click", () => {
+  const isMobile = window.innerWidth <= 720;
+
+  if (manifestoOpen) {
+    if (isMobile) {
+      manifestoPanel.style.maxHeight = `${manifestoPanel.scrollHeight}px`;
+      manifestoPanel.style.transitionDuration = "0.32s, 0.32s, 0.32s, 0.22s, 0.32s";
+
+      requestAnimationFrame(() => {
+        manifestoPanel.classList.remove("visible");
+        manifestoPanel.style.maxHeight = "0px";
+      });
+
+      window.setTimeout(() => {
+        manifestoPanel.style.display = "none";
+        manifestoPanel.style.maxHeight = "";
+        manifestoPanel.style.transitionDuration = "";
+      }, 340);
+    } else {
+      manifestoPanel.classList.remove("visible");
+
+      window.setTimeout(() => {
+        manifestoPanel.style.display = "none";
+      }, 420);
+    }
+
+    manifestoOpen = false;
+    return;
+  }
+
+  manifestoPanel.style.display = "block";
+  manifestoPanel.classList.remove("visible");
+
+  if (isMobile) {
+    sidebar.insertBefore(manifestoPanel, label.nextSibling);
+    manifestoPanel.style.maxHeight = "0px";
+
+    requestAnimationFrame(() => {
+      manifestoPanel.classList.add("visible");
+      manifestoPanel.style.maxHeight = `${manifestoPanel.scrollHeight}px`;
+
+      window.setTimeout(() => {
+        manifestoPanel.style.maxHeight = "none";
+      }, 760);
+    });
+  } else {
+    document.getElementById("main").appendChild(manifestoPanel);
+    requestAnimationFrame(() => manifestoPanel.classList.add("visible"));
+  }
+
+  manifestoOpen = true;
+});
 
 /* ─────────────────────────────────────────────
    START CLOSED
@@ -911,3 +1111,4 @@ document.addEventListener("click", e => {
 </script>
 </body>
 </html>
+
