@@ -717,13 +717,18 @@ function selectUser(id, clickedRow = null) {
 
   const targetRow = clickedRow || document.querySelector(`[data-id="${id}"]`);
 
-  // mobile collapse if already open
-  if (isMobile && activeUserId === id && panel.classList.contains("visible")) {
-    panel.style.maxHeight = `${panel.scrollHeight}px`;
-    requestAnimationFrame(() => {
+  // collapse if the same name is tapped again
+  if (activeUserId === id && panel.classList.contains("visible")) {
+    if (isMobile) {
+      panel.style.maxHeight = `${panel.scrollHeight}px`;
+
+      requestAnimationFrame(() => {
+        panel.classList.remove("visible");
+        panel.style.maxHeight = "0px";
+      });
+    } else {
       panel.classList.remove("visible");
-      panel.style.maxHeight = "0px";
-    });
+    }
 
     document.querySelectorAll(".user-row").forEach(r => r.classList.remove("active"));
     activeUserId = null;
@@ -731,8 +736,9 @@ function selectUser(id, clickedRow = null) {
     window.setTimeout(() => {
       panel.style.display = "none";
       panel.innerHTML = "";
+      panel.style.maxHeight = "";
       document.getElementById("main").appendChild(panel);
-    }, 760);
+    }, isMobile ? 760 : 420);
 
     return;
   }
@@ -847,4 +853,3 @@ document.getElementById("panel").addEventListener("click", e => {
 </script>
 </body>
 </html>
-
