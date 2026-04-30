@@ -185,8 +185,8 @@
       padding: 28px 32px;
       max-width: 700px;
       opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.28s ease, transform 0.28s ease;
+      transform: translateY(-10px);
+      transition: opacity 0.42s ease, transform 0.42s ease;
     }
 
     .panel.visible {
@@ -350,6 +350,26 @@
 
       .sidebar .panel {
         margin: 8px 0 14px;
+        overflow: hidden;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        opacity: 0;
+        transform: translateY(-12px);
+        transition:
+          max-height 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          padding-top 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          padding-bottom 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.45s ease,
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .sidebar .panel.visible {
+        max-height: 1200px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        opacity: 1;
+        transform: translateY(0);
       }
 
       .panel {
@@ -790,9 +810,9 @@ document.getElementById("panel").addEventListener("click", e => {
 });
 
 /* ─────────────────────────────────────────────
-   SELECT FIRST USER ON LOAD
+   START CLOSED
 ───────────────────────────────────────────── */
-selectUser(users[0].id);
 </script>
 </body>
 </html>
+
