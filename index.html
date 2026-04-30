@@ -125,20 +125,12 @@
       cursor: pointer;
       transition:
         background 0.15s,
-        border-color 0.15s,
-        opacity 0.24s ease,
-        transform 0.24s ease;
+        border-color 0.15s;
       margin-bottom: 6px;
       user-select: none;
     }
 
     .user-row:hover { background: rgba(0,0,0,0.04); }
-
-    .user-row.scroll-fade {
-      opacity: 0;
-      transform: translateY(-8px);
-      pointer-events: none;
-    }
 
     .user-row.active {
       background: rgba(0,0,0,0.04);
@@ -336,9 +328,28 @@
       text-align: center;
     }
 
+    /* ── Add gradient fade under header ── */
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 73px;
+      left: 0;
+      right: 0;
+      height: 42px;
+      z-index: 90;
+      pointer-events: none;
+      background: linear-gradient(to bottom, var(--bg) 0%, rgba(245,244,240,0.92) 34%, rgba(245,244,240,0) 100%);
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 720px) {
       header { padding: 14px 16px; }
+
+      body::before {
+        top: 65px;
+        height: 36px;
+      }
 
       .layout {
         flex-direction: column;
@@ -892,37 +903,7 @@ document.addEventListener("click", e => {
   track.style.fontWeight = "500";
 });
 
-/* ─────────────────────────────────────────────
-   SCROLL FADE NAME BOXES
-───────────────────────────────────────────── */
-let scrollFadeFrame = null;
-
-function updateScrollFade() {
-  scrollFadeFrame = null;
-
-  const scrollTop = window.innerWidth <= 720
-    ? window.scrollY
-    : sidebar.scrollTop;
-
-  document.querySelectorAll(".user-row").forEach(row => {
-    const rowTop = window.innerWidth <= 720
-      ? row.getBoundingClientRect().top
-      : row.offsetTop - scrollTop;
-
-    const shouldFade = rowTop < 92;
-    row.classList.toggle("scroll-fade", shouldFade);
-  });
-}
-
-function requestScrollFade() {
-  if (scrollFadeFrame) return;
-  scrollFadeFrame = requestAnimationFrame(updateScrollFade);
-}
-
-window.addEventListener("scroll", requestScrollFade, { passive: true });
-sidebar.addEventListener("scroll", requestScrollFade, { passive: true });
-window.addEventListener("resize", requestScrollFade);
-updateScrollFade();
+ 
 
 /* ─────────────────────────────────────────────
    START CLOSED
