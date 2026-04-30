@@ -123,12 +123,22 @@
       border: 1.5px solid transparent;
       border-radius: var(--radius);
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
+      transition:
+        background 0.15s,
+        border-color 0.15s,
+        opacity 0.24s ease,
+        transform 0.24s ease;
       margin-bottom: 6px;
       user-select: none;
     }
 
     .user-row:hover { background: rgba(0,0,0,0.04); }
+
+    .user-row.scroll-fade {
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
 
     .user-row.active {
       background: rgba(0,0,0,0.04);
@@ -736,6 +746,7 @@ function selectUser(id, clickedRow = null) {
 
     if (isOpen) {
       panel.dataset.animating = "true";
+      panel.style.transitionDuration = "0.32s, 0.32s, 0.32s, 0.22s, 0.32s";
       panel.style.maxHeight = `${panel.scrollHeight}px`;
 
       requestAnimationFrame(() => {
@@ -748,8 +759,9 @@ function selectUser(id, clickedRow = null) {
       window.setTimeout(() => {
         panel.style.display = "none";
         panel.style.maxHeight = "";
+        panel.style.transitionDuration = "";
         panel.dataset.animating = "false";
-      }, 760);
+      }, 340);
 
       return;
     }
@@ -881,9 +893,40 @@ document.addEventListener("click", e => {
 });
 
 /* ─────────────────────────────────────────────
+   SCROLL FADE NAME BOXES
+───────────────────────────────────────────── */
+let scrollFadeFrame = null;
+
+function updateScrollFade() {
+  scrollFadeFrame = null;
+
+  const scrollTop = window.innerWidth <= 720
+    ? window.scrollY
+    : sidebar.scrollTop;
+
+  document.querySelectorAll(".user-row").forEach(row => {
+    const rowTop = window.innerWidth <= 720
+      ? row.getBoundingClientRect().top
+      : row.offsetTop - scrollTop;
+
+    const shouldFade = rowTop < 92;
+    row.classList.toggle("scroll-fade", shouldFade);
+  });
+}
+
+function requestScrollFade() {
+  if (scrollFadeFrame) return;
+  scrollFadeFrame = requestAnimationFrame(updateScrollFade);
+}
+
+window.addEventListener("scroll", requestScrollFade, { passive: true });
+sidebar.addEventListener("scroll", requestScrollFade, { passive: true });
+window.addEventListener("resize", requestScrollFade);
+updateScrollFade();
+
+/* ─────────────────────────────────────────────
    START CLOSED
 ───────────────────────────────────────────── */
 </script>
 </body>
 </html>
-
