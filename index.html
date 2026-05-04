@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Before Stone</title>
-  <link rel="icon" type="image/png" href="LOGO_FAVICON.png" />
-  <link rel="apple-touch-icon" href="LOGO_FAVICON.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./LOGO_FAVICON.png?v=3" />
+  <link rel="shortcut icon" type="image/png" href="./LOGO_FAVICON.png?v=3" />
+  <link rel="apple-touch-icon" href="./LOGO_FAVICON.png?v=3" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -287,25 +288,21 @@
 
     .panel-header {
       display: grid;
-      grid-template-columns: 1fr var(--panel-header-meta-width);
+      grid-template-columns: 1fr;
       align-items: baseline;
       gap: var(--panel-header-gap);
       margin-bottom: 14px;
     }
 
     .panel-artist {
-      font-family: var(--font-names);
-      font-size: var(--panel-artist-size);
-      line-height: var(--panel-artist-leading);
-      letter-spacing: var(--panel-artist-tracking);
-      font-weight: var(--panel-artist-weight);
+      display: none;
     }
 
     .panel-meta-top {
       font-family: var(--font-meta);
       font-size: var(--meta-size);
       color: var(--muted);
-      text-align: right;
+      text-align: left;
       line-height: var(--meta-leading);
       letter-spacing: var(--meta-tracking);
     }
@@ -487,7 +484,7 @@
       .panel-inner { padding: var(--mobile-panel-padding-top) var(--mobile-panel-padding-right) var(--mobile-panel-padding-bottom) var(--mobile-panel-padding-left); }
 
       .panel-header {
-        grid-template-columns: 1fr 110px;
+        grid-template-columns: 1fr;
       }
 
       .panel-artist { font-size: var(--mobile-panel-artist-size); }
@@ -510,7 +507,7 @@
 
 <header>
   <div class="logo-mark">⬡</div>
-  <img class="logo-image" src="LOGO.png" alt="Before Stone" />
+  <img class="logo-image" src="./LOGO.png" alt="Before Stone" />
   <nav>
     <button id="manifesto-button" type="button">MANIFESTO</button>
   </nav>
@@ -522,7 +519,7 @@
     <p class="sidebar-label"></p>
     <div class="panel manifesto-panel" id="manifesto-panel" style="display:none">
       <div class="manifesto-text">
-        <p>Recommendation engines have become blunt tools for something that’s actually quite delicate, optimised for engagement instead of experience. They don’t understand the feeling of finding a track that really hits, and over time they’ve flattened taste into the same loop. This is a simple alternative: a place to share music directly, person to person. No labels, no push, no algorithm — just ten tracks, chosen and passed on because they’re actually worth it.</p>
+        <p>The problem isn’t people discovering new music — it’s how they’re discovering it. Recommendation engines have become blunt tools for something that’s actually quite delicate, optimised for engagement instead of experience. They don’t understand the feeling of finding a track that really hits, and over time they’ve flattened taste into the same loop. This is a simple alternative: a place to share music directly, person to person. No labels, no push, no algorithm — just ten tracks, chosen and passed on because they’re actually worth it.</p>
       </div>
     </div>
     <!-- populated by JS -->
@@ -885,7 +882,6 @@ function buildPanel(user) {
   return `
     <div class="panel-inner">
       <div class="panel-header">
-        <div class="panel-artist">${user.name}</div>
         <div class="panel-meta-top">${user.role}</div>
       </div>
       <ul class="tracklist">
