@@ -351,13 +351,12 @@
     .track-title {
       position: relative;
       z-index: 1;
-      padding-left: 30px;
     }
 
     .track-playing {
       display: inline-block;
       position: absolute;
-      left: 0;
+      left: calc(-1 * var(--panel-padding-left));
       top: 50%;
       width: 6px;
       height: 6px;
@@ -367,6 +366,7 @@
       opacity: 0;
       transform: translateY(-50%) scale(0.6);
       transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 2;
     }
 
     .track.active .track-playing {
@@ -539,8 +539,8 @@
         white-space: nowrap;
       }
 
-      .track-title {
-        padding-left: 30px;
+      .track-playing {
+        left: calc(-1 * var(--mobile-panel-padding-left));
       }
 
       .track-copy {
@@ -788,7 +788,8 @@ function selectUser(id, clickedRow = null) {
 function buildPanel(user) {
   const trackItems = user.tracks.map((t, i) => `
     <li class="track" data-index="${i}" data-url="${localAudioPath(t)}">
-      <span class="track-title"><span class="track-playing"></span>${t.title}</span>
+      <span class="track-playing"></span>
+      <span class="track-title">${t.title}</span>
       <span class="track-artist">${t.artist || user.name}</span>
       <button class="track-copy" type="button" data-copy="${t.title} — ${t.artist || user.name}">COPY</button>
     </li>
