@@ -538,9 +538,9 @@
 /* ─────────────────────────────────────────────
    DATA
    Each track has: title, optional artist, optional url
-   All tracks now play from local MP3 files in ./audio/
+   All tracks play from local MP3 files in the same folder as this HTML file.
    If a track has no local url, the player auto-generates one from the title.
-   Example: "Bleu (Ciel)" → ./audio/bleu-ciel.mp3
+   Example: "Bleu (Ciel)" → ./bleu-ciel.mp3
 ───────────────────────────────────────────── */
 const users = [
   {
@@ -560,8 +560,8 @@ const users = [
       { title: "Néons rouges", artist: "Luidji", url: "trimmed_trimmed_Luidji - Néons rouges _ Belles chansons - (128 Kbps).mp3" },
       { title: "I Didn't Know", artist: "Skinshape", url: "trimmed_trimmed_Skinshape - I Didn't Know (Official Video).mp3" },
       { title: "What Kinda Music", artist: "Tom Misch & Yussef Dayes", url: "trimmed_trimmed_Tom Misch & Yussef Dayes - What Kinda Music (Official Video).mp3" },
-      { title: "Rua do capelão", artist: "Amália Rodrigues", url: "./audio/too-many-man.mp3" },
-      { title: "as long as ropes unravel", artist: "Dean Blunt", url: "trimmed_trimmed_as long as ropes unravel fake rolex will travel.mp33" },
+      { title: "Rua do capelão", artist: "Amália Rodrigues", url: "trimmed_Rua do capelão.mp3" },
+      { title: "as long as ropes unravel", artist: "Dean Blunt", url: "trimmed_trimmed_as long as ropes unravel fake rolex will travel.mp3" },
       { title: "Fade Into You", artist: "Mazzy Sta", url: "trimmed_trimmed_Mazzy Star - Fade Into You (Official Music Video).mp3" },
     ]
   },
@@ -631,10 +631,15 @@ function slugifyTrackTitle(title) {
 
 function localAudioPath(track) {
   if (track.url && /\.(mp3|wav|ogg|m4a)(\?.*)?$/i.test(track.url)) {
-    return track.url;
+    return track.url.startsWith("./") ||
+      track.url.startsWith("/") ||
+      track.url.startsWith("http://") ||
+      track.url.startsWith("https://")
+      ? track.url
+      : `./${track.url}`;
   }
 
-  return `./audio/${slugifyTrackTitle(track.title)}.mp3`;
+  return `./${slugifyTrackTitle(track.title)}.mp3`;
 }
 
 /* ─────────────────────────────────────────────
@@ -835,7 +840,7 @@ document.addEventListener("click", e => {
 
   audio.src = src;
   audio.play().catch(error => {
-    console.warn("Could not play local audio file. Make sure the MP3 exists here:", src, error);
+    console.warn("Could not play local audio file. Make sure the MP3 is in the same folder as index_1.html:", src, error);
   });
 
   track.classList.add("active");
