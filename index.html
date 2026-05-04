@@ -506,7 +506,23 @@
 
       .panel-artist { font-size: var(--mobile-panel-artist-size); }
 
-      .track { font-size: var(--mobile-track-size); }
+      .track {
+        font-size: 10px;
+        line-height: 1.15;
+        gap: 10px;
+        white-space: nowrap;
+      }
+
+      .track-title,
+      .track-artist {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .track-copy {
+        font-size: 9px;
+      }
       .track {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 38px;
       }
