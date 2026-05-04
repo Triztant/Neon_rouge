@@ -320,7 +320,7 @@
       align-items: center;
       gap: var(--track-column-gap);
       min-height: var(--track-min-height);
-      padding: var(--track-padding-y) var(--track-padding-x);
+      padding: var(--track-padding-y) 0;
       cursor: pointer;
       color: var(--text);
       font-size: var(--track-size);
@@ -330,9 +330,16 @@
       text-transform: uppercase;
     }
 
-    .track:hover,
-    .track.active {
+    .track:hover::before,
+    .track.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(-1 * var(--panel-padding-left));
+      right: calc(-1 * var(--panel-padding-right));
       background: var(--highlight);
+      z-index: 0;
     }
 
     .track.active::after {
@@ -344,23 +351,27 @@
     .track-title {
       position: relative;
       z-index: 1;
+      padding-left: 30px;
     }
 
     .track-playing {
       display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 50%;
       width: 6px;
       height: 6px;
-      margin-right: 8px;
+      margin-right: 0;
       border-radius: 50%;
       background: var(--text);
       opacity: 0;
-      transform: scale(0.6);
+      transform: translateY(-50%) scale(0.6);
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .track.active .track-playing {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(-50%) scale(1);
     }
 
     .track-artist {
@@ -511,6 +522,14 @@
         line-height: 1.15;
         gap: 10px;
         white-space: nowrap;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .track:hover::before,
+      .track.active::before {
+        left: calc(-1 * var(--mobile-panel-padding-left));
+        right: calc(-1 * var(--mobile-panel-padding-right));
       }
 
       .track-title,
@@ -518,6 +537,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      .track-title {
+        padding-left: 30px;
       }
 
       .track-copy {
