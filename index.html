@@ -58,8 +58,6 @@
       --logo-leading: 0.82;
       --logo-tracking: -0.08em;
       --logo-weight: 400;
-      --logo-image-width: 140px;
-      --mobile-logo-image-width: 90px;
 
       /* Name rows */
       --row-name-size: 26px;
@@ -171,7 +169,7 @@
 
     .logo-image {
       display: block;
-      width: var(--logo-image-width);
+      width: clamp(140px, 18vw, 220px);
       height: auto;
     }
 
@@ -472,7 +470,7 @@
       }
 
       .logo-image {
-        width: var(--mobile-logo-image-width);
+        width: clamp(120px, 28vw, 160px);
       }
 
       .user-row {
