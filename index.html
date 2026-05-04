@@ -346,6 +346,23 @@
       z-index: 1;
     }
 
+    .track-playing {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: var(--text);
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .track.active .track-playing {
+      opacity: 1;
+      transform: scale(1);
+    }
+
     .track-artist {
       position: relative;
       z-index: 1;
@@ -553,16 +570,16 @@ const users = [
     uploadDate: "2026-03-19",
     description: "Here's ten sounds I've been sitting with this week. A mix of things I keep coming back to late night, walking, in-between moments. Felt right to put them together.",
     tracks: [
-      { title: "Cherry-coloured Funk", artist: "Cocteau Twins", url: "trimmed_trimmed_Cocteau Twins - Cherry-coloured Funk - (128 Kbps).mp3" },
-      { title: "E Depois Do Adeus", artist: "Paulo de Carvalho", url: "trimmed_trimmed_E Depois Do Adeus.mp3" },
-      { title: "Baitone", artist: "Cellar Door", url: "trimmed_trimmed_CELLAR DOOR --- BAITONE.mp3" },
-      { title: "Real Life", artist: "Ear", url: "trimmed_trimmed_Real Life - ear.mp3" },
+      { title: "Cherry-coloured Funk", artist: "Cocteau Twins", url: "Cocteau_Twins_Cherry_coloured_Funk.mp3" },
+      { title: "E Depois Do Adeus", artist: "Paulo de Carvalho", url: "E_Depois_Do_Adeus.mp3" },
+      { title: "Baitone", artist: "Cellar Door", url: "CELLAR_DOOR_BAITONE.mp3" },
+      { title: "Real Life", artist: "Ear", url: "Real_Life.mp3" },
       { title: "Néons rouges", artist: "Luidji", url: "trimmed_trimmed_Luidji - Néons rouges _ Belles chansons - (128 Kbps).mp3" },
-      { title: "I Didn't Know", artist: "Skinshape", url: "trimmed_trimmed_Skinshape - I Didn't Know (Official Video).mp3" },
-      { title: "What Kinda Music", artist: "Tom Misch & Yussef Dayes", url: "trimmed_trimmed_Tom Misch & Yussef Dayes - What Kinda Music (Official Video).mp3" },
+      { title: "I Didn't Know", artist: "Skinshape", url: "Skinshape_Didn_now.mp3" },
+      { title: "What Kinda Music", artist: "Tom Misch & Yussef Dayes", url: "ussef_Dayes_What_Kind_ Music.mp3" },
       { title: "Rua do capelão", artist: "Amália Rodrigues", url: "trimmed_Rua do capelão.mp3" },
-      { title: "as long as ropes unravel", artist: "Dean Blunt", url: "trimmed_trimmed_as long as ropes unravel fake rolex will travel.mp3" },
-      { title: "Fade Into You", artist: "Mazzy Sta", url: "trimmed_trimmed_Mazzy Star - Fade Into You (Official Music Video).mp3" },
+      { title: "as long as ropes unravel", artist: "Dean Blunt", url: "fake_rolex_will_travel.mp3" },
+      { title: "Fade Into You", artist: "Mazzy Sta", url: "Mazzy Star _Fade_Into_You.mp3" },
     ]
   },
   {
@@ -732,7 +749,7 @@ function selectUser(id, clickedRow = null) {
 function buildPanel(user) {
   const trackItems = user.tracks.map((t, i) => `
     <li class="track" data-index="${i}" data-url="${localAudioPath(t)}">
-      <span class="track-title">${t.title}</span>
+      <span class="track-title"><span class="track-playing"></span>${t.title}</span>
       <span class="track-artist">${t.artist || user.name}</span>
       <button class="track-copy" type="button" data-copy="${t.title} — ${t.artist || user.name}">COPY</button>
     </li>
