@@ -3,527 +3,507 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ariadne’s Thread</title>
+  <title>Before Stone</title>
+  <link rel="icon" type="image/png" href="before-stone-logo.png" />
+  <link rel="apple-touch-icon" href="before-stone-logo.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     @font-face {
-      font-family: 'Suisse Intl Bold';
-      src: url('./fonts/Suisse_Intl_Bold.ttf') format('truetype');
+      font-family: "Suisse Intl Medium";
+      src: url("fonnts.com-Suisse_Intl_Medium.ttf") format("truetype");
       font-weight: 500;
       font-style: normal;
       font-display: swap;
     }
 
     :root {
-      --bg: #f5f4f0;
-      --surface: #ebebе5;
-      --panel: #e8e7e2;
-      --border: rgba(0,0,0,0.08);
-      --text: #111;
-      --muted: #888;
-      --faint: #bbb;
-      --accent-green: #2e7d5a;
-      --accent-red: #c94040;
-      --accent-orange: #d4713a;
-      --accent-pink: #d4607a;
-      --accent-yellow: #c8a840;
-      --radius: 14px;
-      --font: 'Suisse Intl Bold', sans-serif;
-      --mono: 'Suisse Intl Bold', sans-serif;
+      /* ─────────────────────────────────────────────
+         EASY DESIGN CONTROLS
+         Change these values to adjust the whole page.
+      ───────────────────────────────────────────── */
+
+      /* Colours */
+      --bg: #000000;
+      --page: #000000;
+      --line: rgba(255,255,255,0.55);
+      --text: #ffffff;
+      --muted: #9a9a9a;
+      --highlight: rgba(255,255,255,0.08);
+      --bar: #ffffff;
+
+      /* Fonts */
+      --font-logo: "Times New Roman", Times, serif;
+      --font-names: "Times New Roman", Times, serif;
+      --font-tracks: "Suisse Intl Medium", Arial, Helvetica, sans-serif;
+      --font-meta: "Suisse Intl Medium", Arial, Helvetica, sans-serif;
+      --font-body: "Times New Roman", Times, serif;
+
+      /* Overall page box */
+      --page-width: 100vw;
+      --desktop-page-gap: 0px;
+      --mobile-page-gap: 0px;
+      --box-border-width: 1px;
+
+      /* Header box */
+      --header-padding-top: 24px;
+      --header-padding-right: 38px;
+      --header-padding-bottom: 22px;
+      --header-padding-left: 38px;
+
+      /* Logo type */
+      --logo-size-min: 54px;
+      --logo-size-fluid: 6.2vw;
+      --logo-size-max: 76px;
+      --logo-leading: 0.82;
+      --logo-tracking: -0.08em;
+      --logo-weight: 400;
+      --logo-image-width: 260px;
+      --mobile-logo-image-width: 180px;
+
+      /* Name rows */
+      --row-name-size: 26px;
+      --row-name-leading: 1;
+      --row-name-tracking: -0.065em;
+      --row-name-weight: 400;
+      --row-min-height: 72px;
+      --row-padding-top: 20px;
+      --row-padding-right: 38px;
+      --row-padding-bottom: 20px;
+      --row-padding-left: 38px;
+      --row-column-1-min: 210px;
+      --row-column-2-min: 240px;
+      --row-date-column-width: 108px;
+      --row-column-gap: 26px;
+
+      /* Small meta type */
+      --meta-size: 11px;
+      --meta-leading: 1.2;
+      --meta-tracking: -0.045em;
+
+      /* Open panel */
+      --panel-padding-top: 20px;
+      --panel-padding-right: 38px;
+      --panel-padding-bottom: 24px;
+      --panel-padding-left: 38px;
+      --panel-header-gap: 20px;
+      --panel-header-meta-width: 190px;
+      --panel-artist-size: 26px;
+      --panel-artist-leading: 1;
+      --panel-artist-tracking: -0.065em;
+      --panel-artist-weight: 400;
+
+      /* Track list */
+      --track-size: 15px;
+      --track-leading: 1.25;
+      --track-tracking: -0.05em;
+      --track-min-height: 20px;
+      --track-padding-y: 1px;
+      --track-padding-x: 0px;
+      --track-column-gap: 24px;
+      --track-copy-column-width: 0px;
+      --active-bar-height: 3px;
+      --active-bar-bottom: 0px;
+      --active-bar-right: 0px;
+
+      /* Footer text */
+      --desc-size: 12px;
+      --desc-leading: 1.2;
+      --desc-tracking: -0.04em;
+      --desc-max-width: 560px;
+      --stats-size: 10px;
+      --stats-leading: 1.5;
+
+      /* Mobile controls */
+      --mobile-header-padding-top: 22px;
+      --mobile-header-padding-right: 22px;
+      --mobile-header-padding-bottom: 20px;
+      --mobile-header-padding-left: 22px;
+      --mobile-logo-size: 54px;
+      --mobile-row-name-size: 24px;
+      --mobile-row-min-height: 68px;
+      --mobile-row-padding-top: 18px;
+      --mobile-row-padding-right: 22px;
+      --mobile-row-padding-bottom: 18px;
+      --mobile-row-padding-left: 22px;
+      --mobile-panel-padding-top: 18px;
+      --mobile-panel-padding-right: 22px;
+      --mobile-panel-padding-bottom: 20px;
+      --mobile-panel-padding-left: 22px;
+      --mobile-panel-artist-size: 24px;
+      --mobile-track-size: 14px;
+
+      /* Backwards-compatible aliases */
+      --font: var(--font-body);
+      --sans: var(--font-meta);
     }
 
     html, body {
-      height: 100%;
+      min-height: 100%;
       background: var(--bg);
       color: var(--text);
       font-family: var(--font);
-      font-size: 14px;
       -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
     }
 
-    /* ── HEADER ── */
+    body {
+      padding: var(--desktop-page-gap) 0;
+    }
+
+    #audio-player { display: none; }
+
     header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 18px 28px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--bg);
+      width: 100%;
+      margin: 0;
+      background: var(--page);
+      border: none;
+      border-bottom: var(--box-border-width) solid var(--line);
+      padding: var(--header-padding-top) var(--header-padding-right) var(--header-padding-bottom) var(--header-padding-left);
+      position: relative;
     }
 
-    .logo-mark {
-      width: 38px; height: 38px;
-      border: 1.5px solid var(--accent-red);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--accent-red);
-      font-size: 18px;
-    }
+    .logo-mark { display: none; }
 
     .logo-text {
-      font-size: 17px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
+      display: none;
     }
 
-    .logo-text span { display: block; }
+    .logo-image {
+      display: block;
+      width: var(--logo-image-width);
+      height: auto;
+    }
 
     nav {
-      display: flex;
-      gap: 6px;
-      margin-left: auto;
+      position: absolute;
+      top: 34px;
+      right: 38px;
+      z-index: 20;
+      display: block;
     }
 
-    nav button {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-family: var(--font);
-      font-size: 13px;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.18s;
-    }
-
-    nav button:hover { color: var(--text); border-color: rgba(0,0,0,0.2); }
-
-    /* ── LAYOUT ── */
-    .layout {
-      display: flex;
-      height: 100vh;
-      padding-top: 73px;
-    }
-
-    /* ── LEFT COLUMN ── */
-    .sidebar {
-      width: 360px;
-      flex-shrink: 0;
-      overflow-y: auto;
-      padding: 24px 20px;
-      border-right: 1px solid var(--border);
-      scrollbar-width: none;
-    }
-    .sidebar::-webkit-scrollbar { display: none; }
-
-    .sidebar-label {
-      font-size: 10px;
-      letter-spacing: 0.12em;
+    #manifesto-button {
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-meta);
+      font-size: 12px;
+      line-height: var(--meta-leading);
+      letter-spacing: var(--meta-tracking);
+      font-weight: 500;
       text-transform: uppercase;
-      color: var(--faint);
-      font-family: var(--mono);
-      margin-bottom: 14px;
-      padding-left: 4px;
-    }
-
-    /* active user row (highlighted, no border) */
-    .user-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      border: 1.5px solid transparent;
-      border-radius: var(--radius);
       cursor: pointer;
-      transition:
-        background 0.15s,
-        border-color 0.15s;
-      margin-bottom: 6px;
+      padding: 0;
+    }
+
+    #manifesto-button:hover,
+    #manifesto-button.active {
+      color: var(--muted);
+    }
+
+    .layout {
+      width: 100%;
+      margin: 0;
+      background: var(--page);
+      border: none;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 100%;
+    }
+
+    .sidebar-label { display: none; }
+
+    .user-row {
+      display: grid;
+      grid-template-columns: minmax(var(--row-column-1-min), 1.2fr) minmax(var(--row-column-2-min), 1fr) var(--row-date-column-width);
+      align-items: baseline;
+      gap: var(--row-column-gap);
+      min-height: var(--row-min-height);
+      padding: var(--row-padding-top) var(--row-padding-right) var(--row-padding-bottom) var(--row-padding-left);
+      border-top: 1px solid var(--line);
+      cursor: pointer;
       user-select: none;
+      transition: background 0.16s ease;
     }
 
-    .user-row:hover { background: rgba(0,0,0,0.04); }
-
+    .user-row:hover,
     .user-row.active {
-      background: rgba(0,0,0,0.04);
+      background: rgba(255,255,255,0.035);
     }
 
-    .user-row.active .user-name { font-weight: 500; }
-
-    /* dot */
-    .dot {
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .dot-green  { background: var(--accent-green); }
-    .dot-red    { background: var(--accent-red); }
-    .dot-orange { background: var(--accent-orange); }
-    .dot-pink   { background: var(--accent-pink); }
-    .dot-yellow { background: var(--accent-yellow); }
-
-    /* border tints for user rows */
-    .user-row[data-color="green"]  { border-color: rgba(46,125,90,0.35); }
-    .user-row[data-color="red"]    { border-color: rgba(201,64,64,0.35); }
-    .user-row[data-color="orange"] { border-color: rgba(212,113,58,0.35); }
-    .user-row[data-color="pink"]   { border-color: rgba(212,96,122,0.35); }
-    .user-row[data-color="yellow"] { border-color: rgba(200,168,64,0.35); }
+    .dot { display: none; }
 
     .user-name {
-      flex: 1;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-family: var(--font-names);
+      font-size: var(--row-name-size);
+      line-height: var(--row-name-leading);
+      letter-spacing: var(--row-name-tracking);
+      font-weight: var(--row-name-weight);
+      color: var(--text);
+    }
+
+    .user-date,
+    .user-role-inline {
+      font-family: var(--font-meta);
+      font-size: var(--meta-size);
+      line-height: var(--meta-leading);
+      color: var(--muted);
+      letter-spacing: var(--meta-tracking);
+    }
+
+    .user-role-inline {
+      text-align: right;
     }
 
     .user-date {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
+      text-align: right;
+      white-space: nowrap;
     }
 
-    /* ── RIGHT PANEL ── */
-    .main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 32px 36px;
-      scrollbar-width: none;
-    }
-    .main::-webkit-scrollbar { display: none; }
+    .main { display: none; }
+
+    .empty-state { display: none; }
 
     .panel {
-      background: #e9e8e3;
-      border-radius: 18px;
-      padding: 28px 32px;
-      max-width: 700px;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.42s ease, transform 0.42s ease;
+      display: block;
+      background: var(--page);
+      border-top: 1px solid var(--line);
+      opacity: 1;
+      transform: none;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.45s ease;
     }
 
     .panel.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: none;
+    }
+
+    .panel-inner {
+      padding: var(--panel-padding-top) var(--panel-padding-right) var(--panel-padding-bottom) var(--panel-padding-left);
     }
 
     .panel-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 22px;
-      gap: 20px;
+      display: grid;
+      grid-template-columns: 1fr var(--panel-header-meta-width);
+      align-items: baseline;
+      gap: var(--panel-header-gap);
+      margin-bottom: 14px;
     }
 
     .panel-artist {
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
+      font-family: var(--font-names);
+      font-size: var(--panel-artist-size);
+      line-height: var(--panel-artist-leading);
+      letter-spacing: var(--panel-artist-tracking);
+      font-weight: var(--panel-artist-weight);
     }
 
     .panel-meta-top {
-      text-align: right;
-      font-size: 12px;
+      font-family: var(--font-meta);
+      font-size: var(--meta-size);
       color: var(--muted);
-      line-height: 1.6;
+      text-align: right;
+      line-height: var(--meta-leading);
+      letter-spacing: var(--meta-tracking);
     }
 
-    /* tracklist */
     .tracklist {
       list-style: none;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
+      font-family: var(--font-tracks);
     }
 
     .track {
-      display: flex;
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) 44px;
       align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.07);
+      gap: var(--track-column-gap);
+      min-height: var(--track-min-height);
+      padding: var(--track-padding-y) var(--track-padding-x);
       cursor: pointer;
-      transition: background 0.13s;
-      border-radius: 6px;
-      padding-left: 8px;
-      padding-right: 8px;
-      margin: 0 -8px;
+      color: var(--text);
+      font-size: var(--track-size);
+      line-height: var(--track-leading);
+      letter-spacing: var(--track-tracking);
+      font-weight: 500;
+      text-transform: uppercase;
     }
 
-    .track:last-child { border-bottom: none; }
-
-    .track:hover {
-      background: rgba(0,0,0,0.07);
-    }
-
+    .track:hover,
     .track.active {
-      background: #111;
-      color: #fff;
+      background: var(--highlight);
     }
 
-    .track.active .track-num,
-    .track.active .track-title {
-      color: #fff;
-    }
-
-    .track.active .track-play {
-      opacity: 1;
-      border-color: rgba(255,255,255,0.35);
-    }
-
-    .track.active .track-play svg {
-      fill: #fff;
-    }
-
-    .track.active .track-play svg polygon {
+    .track.active::after {
       display: none;
     }
 
-    .track.active .track-play::before {
-      content: "Ⅱ";
-      font-size: 10px;
-      line-height: 1;
-      color: #fff;
-    }
-
-    .track-num {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--faint);
-      width: 18px;
-      text-align: right;
-      flex-shrink: 0;
-    }
+    .track-num { display: none; }
 
     .track-title {
-      flex: 1;
-      font-size: 13.5px;
-      font-weight: 400;
+      position: relative;
+      z-index: 1;
     }
 
-    .track-play {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,0.15);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0;
-      transition: opacity 0.15s;
-      flex-shrink: 0;
+    .track-artist {
+      position: relative;
+      z-index: 1;
     }
-
-    .track:hover .track-play { opacity: 1; }
-
-
-    .track-play svg { width: 9px; height: 9px; fill: var(--text); }
 
     .track-copy {
+      display: block;
+      position: relative;
+      z-index: 2;
       border: none;
       background: transparent;
       color: var(--muted);
-      padding: 0;
-      font-family: var(--font);
-      font-size: 10px;
-      line-height: 1;
+      font-family: var(--font-meta);
+      font-size: var(--meta-size);
+      line-height: var(--meta-leading);
+      letter-spacing: var(--meta-tracking);
+      font-weight: 500;
+      text-transform: uppercase;
+      text-align: right;
       cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.15s, color 0.15s;
-      flex-shrink: 0;
+      padding: 0;
     }
 
-    .track:hover .track-copy,
-    .track.active .track-copy {
-      opacity: 1;
-    }
+    .track-copy::after { display: none; }
 
     .track-copy:hover {
       color: var(--text);
     }
 
-    .track.active .track-copy {
-      color: #fff;
+    .track-copy.copied:hover {
+      color: transparent;
     }
 
-    .track.active .track-copy:hover {
-      color: rgba(255,255,255,0.7);
+    .track-copy.copied {
+      color: transparent;
     }
 
-    /* embed area */
-    .embed-area {
-      width: 0;
-      height: 0;
-      opacity: 0;
-      overflow: hidden;
-      pointer-events: none;
+    .track-copy.copied::before {
+      content: "COPIED";
       position: absolute;
+      right: 0;
+      top: 0;
+      color: var(--muted);
+      font-family: var(--font-meta);
+      font-size: 10px;
+      letter-spacing: 0;
     }
 
-    .embed-area iframe {
-      width: 0;
-      height: 0;
-      border: none;
-    }
+    .track-play { display: none; }
 
-    /* panel footer */
     .panel-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      border-top: 1px solid rgba(0,0,0,0.07);
-      padding-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 150px;
+      gap: var(--panel-header-gap);
+      border-top: none;
+      padding-top: 18px;
+      font-family: var(--font-meta);
+      color: var(--muted);
     }
 
     .panel-desc {
-      font-size: 12.5px;
+      max-width: var(--desc-max-width);
+      font-size: var(--desc-size);
+      line-height: var(--desc-leading);
+      letter-spacing: var(--desc-tracking);
       color: var(--muted);
-      line-height: 1.65;
-      max-width: 340px;
     }
 
     .panel-stats {
-      font-family: var(--mono);
-      font-size: 10.5px;
-      color: var(--faint);
       text-align: right;
+      font-size: var(--stats-size);
+      line-height: var(--stats-leading);
+      letter-spacing: var(--meta-tracking);
       white-space: nowrap;
-      line-height: 1.8;
+      color: var(--muted);
     }
 
     .manifesto-panel {
-      max-width: 520px;
+      background: var(--page);
+      border-top: 1px solid var(--line);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease;
+    }
+
+    .manifesto-panel.visible {
+      display: block !important;
     }
 
     .manifesto-text {
-      font-size: 15px;
-      line-height: 1.45;
-      letter-spacing: -0.01em;
+      padding: var(--panel-padding-top) var(--panel-padding-right) var(--panel-padding-bottom) var(--panel-padding-left);
+      font-family: var(--font-body);
+      font-size: var(--desc-size);
+      line-height: var(--desc-leading);
+      letter-spacing: var(--desc-tracking);
+      max-width: var(--desc-max-width);
     }
 
-    .manifesto-text p + p {
-      margin-top: 14px;
-    }
-
-    /* empty state */
-    .empty-state {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 60vh;
-      color: var(--faint);
-      font-size: 13px;
-      letter-spacing: 0.05em;
-      font-family: var(--mono);
-      text-align: center;
-    }
-
-    /* ── Add gradient fade under header ── */
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 73px;
-      left: 0;
-      right: 0;
-      height: 42px;
-      z-index: 90;
-      pointer-events: none;
-      background: linear-gradient(to bottom, var(--bg) 0%, rgba(245,244,240,0.92) 34%, rgba(245,244,240,0) 100%);
-    }
-
-    /* ── MOBILE ── */
     @media (max-width: 720px) {
-      header { padding: 14px 16px; }
-
-      body::before {
-        top: 65px;
-        height: 36px;
+      body { padding: var(--mobile-page-gap); }
+      :root {
+        --page-width: 100%;
       }
 
+      nav {
+        top: 28px;
+        right: 22px;
+      }
+
+      header,
       .layout {
-        flex-direction: column;
-        height: auto;
-        padding-top: 65px;
-      }
-
-      .sidebar {
         width: 100%;
+        border-left: none;
         border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding: 16px 14px;
-        overflow-y: visible;
       }
 
-      .main {
-        display: none;
+      header {
+        padding: var(--mobile-header-padding-top) var(--mobile-header-padding-right) var(--mobile-header-padding-bottom) var(--mobile-header-padding-left);
       }
 
-      .sidebar .panel {
-        margin: 8px 0 14px;
-        overflow: hidden;
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        opacity: 0;
-        transform: translateY(-12px);
-        transition:
-          max-height 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-          padding-top 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-          padding-bottom 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-          opacity 0.5s ease,
-          transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      .logo-image {
+        width: var(--mobile-logo-image-width);
       }
 
-      .sidebar .panel.visible {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        opacity: 1;
-        transform: translateY(0);
+      .user-row {
+        grid-template-columns: 1fr 84px;
+        gap: var(--row-column-gap);
+        padding: var(--mobile-row-padding-top) var(--mobile-row-padding-right) var(--mobile-row-padding-bottom) var(--mobile-row-padding-left);
+        min-height: var(--mobile-row-min-height);
       }
 
-      .panel {
-        max-width: 100%;
-        padding: 6px 18px 20px;
-      }
+      .user-role-inline { display: none; }
+
+      .user-name { font-size: var(--mobile-row-name-size); }
+
+      .panel-inner { padding: var(--mobile-panel-padding-top) var(--mobile-panel-padding-right) var(--mobile-panel-padding-bottom) var(--mobile-panel-padding-left); }
 
       .panel-header {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 0px;
-        margin-bottom: 6px;
+        grid-template-columns: 1fr 110px;
       }
 
-      .panel-artist {
-        flex: 1;
-        margin-top: 0;
-        line-height: 1.1;
-      }
+      .panel-artist { font-size: var(--mobile-panel-artist-size); }
 
-      .panel-meta-top {
-        text-align: left;
-        padding-top: 0;
-        margin-top: 0;
-        min-width: 120px;
-        line-height: 1.1;
+      .track { font-size: var(--mobile-track-size); }
+      .track {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 38px;
       }
 
       .panel-footer {
-        flex-direction: column;
-        gap: 10px;
+        grid-template-columns: 1fr;
       }
 
       .panel-stats { text-align: left; }
-
-      .track-copy {
-        opacity: 1;
-        padding: 0;
-      }
-      nav {
-        display: flex;
-        margin-left: auto;
-      }
-
-      nav button {
-        padding: 5px 10px;
-        font-size: 11px;
-      }
-
-      .manifesto-panel {
-        margin: 8px 14px 14px;
-      }
     }
   </style>
 </head>
@@ -532,12 +512,9 @@
 
 <header>
   <div class="logo-mark">⬡</div>
-  <div class="logo-text">
-    <span>Ariadne’s</span>
-    <span>Thread</span>
-  </div>
+  <img class="logo-image" src="before-stone-logo.png" alt="Before Stone" />
   <nav>
-    <button id="manifesto-button" type="button">MANFESTO</button>
+    <button id="manifesto-button" type="button">MANIFESTO</button>
   </nav>
 </header>
 
@@ -565,8 +542,10 @@
 <script>
 /* ─────────────────────────────────────────────
    DATA
-   Each track has: title, url
-   Use local MP3 paths, for example: "./audio/clay.mp3"
+   Each track has: title, optional artist, optional url
+   All tracks now play from local MP3 files in ./audio/
+   If a track has no local url, the player auto-generates one from the title.
+   Example: "Bleu (Ciel)" → ./audio/bleu-ciel.mp3
 ───────────────────────────────────────────── */
 const users = [
   {
@@ -574,21 +553,21 @@ const users = [
     name: "Tristan Casper",
     date: "30/04/26",
     color: "red",
-    role: "Music Producer and Artist",
+    role: "Graphic Designer",
     location: "London",
     uploadDate: "2026-03-19",
     description: "Here's ten sounds I've been sitting with this week. A mix of things I keep coming back to late night, walking, in-between moments. Felt right to put them together.",
     tracks: [
-      { title: "Clay", url: "./audio/clay.mp3" },
-      { title: "Sandy Riviera", url: "https://open.spotify.com/track/3n3oP3RGg6GtAi5EHGxBF2", type: "spotify_track" },
-      { title: "Twfghtl", url: "https://open.spotify.com/track/6UwsVIeUFYJRTmBcGkMTuA", type: "spotify_track" },
-      { title: "VoiceRecording 29/02/22", url: "https://open.spotify.com/track/7qiZfU4dY1lWllzX7mPBI3", type: "spotify_track" },
-      { title: "Gordon Chambers", url: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b", type: "spotify_track" },
-      { title: "Prism Boy", url: "https://open.spotify.com/track/1o8rZDwVMDlxnS0QfARLMF", type: "spotify_track" },
-      { title: "Zoin-I and The Grouch Trains", url: "https://open.spotify.com/track/4cCXbKQ9Cq7gLKYDgHoF1p", type: "spotify_track" },
-      { title: "Naked feat Love", url: "https://open.spotify.com/track/5WkWKfHBMGtGqKp3qJCLEr", type: "spotify_track" },
-      { title: "Girls are just girls feat akiko", url: "https://open.spotify.com/track/3B0MWyQuXAfh8kFyoJkDVX", type: "spotify_track" },
-      { title: "Candy", url: "https://open.spotify.com/track/2takcwOaAZWiXM5z7tLpam", type: "spotify_track" },
+      { title: "Nights", artist: "Frank Ocean", url: "./audio/nights.mp3" },
+      { title: "Biking", artist: "Frank Ocean", url: "./audio/biking.mp3" },
+      { title: "Jardins Proibidos", artist: "Paul Gonzo", url: "./audio/jardins-proibidos.mp3" },
+      { title: "Voice Recording", artist: "29/02/22", url: "./audio/voice-recording.mp3" },
+      { title: "Parfum Quarter", artist: "Jul", url: "./audio/parfum-quarter.mp3" },
+      { title: "Palave", artist: "RSKO, Tikola", url: "./audio/palave.mp3" },
+      { title: "Kibly Girl", artist: "The Backseat Lovers", url: "./audio/kibly-girl.mp3" },
+      { title: "Too Many Man", artist: "Skepta", url: "./audio/too-many-man.mp3" },
+      { title: "52", artist: "The Roystons Clubs", url: "./audio/52.mp3" },
+      { title: "Let Me Love You", artist: "Mario", url: "./audio/let-me-love-you.mp3" },
     ]
   },
   {
@@ -601,16 +580,16 @@ const users = [
     uploadDate: "2026-04-29",
     description: "Some of the sounds that have been living on my hard drive. Not a release, just things I keep returning to.",
     tracks: [
-      { title: "Bleu (Ciel)", url: "https://open.spotify.com/track/10nBzGLZDMqNzfxV6ONRXG", type: "spotify_track" },
-      { title: "Danielle (smile on my face)", url: "https://open.spotify.com/track/1jqRVbMSTxhWTtDxkXRiGh", type: "spotify_track" },
-      { title: "Marea (we've lost dancing)", url: "https://open.spotify.com/track/3ZS2KYaAFCv8S6DFPQX6Yy", type: "spotify_track" },
-      { title: "Kyle (i found you)", url: "https://open.spotify.com/track/2MAqVTgk3kfJmTGa8Vg2aF", type: "spotify_track" },
-      { title: "Jungle", url: "https://open.spotify.com/track/0wQtcq4L4YXpLRxLVN2GH2", type: "spotify_track" },
-      { title: "Dermot (see yourself in my eyes)", url: "https://open.spotify.com/track/1dBQI1bYT9jz5MOXfBHHLP", type: "spotify_track" },
-      { title: "Ten", url: "https://open.spotify.com/track/1v5SnuAeGkR3iZ5qBHPMjz", type: "spotify_track" },
-      { title: "Billie (loving me)", url: "https://open.spotify.com/track/3VGVDQ4Q15Aof1pWFiQqD0", type: "spotify_track" },
-      { title: "Beth (how I feel)", url: "https://open.spotify.com/track/3zHx2JOCL1bNkFkmzHyCnU", type: "spotify_track" },
-      { title: "Sabrina (i am a party)", url: "https://open.spotify.com/track/2pMvmVWKxOAhHBNfxL4R2S", type: "spotify_track" },
+      { title: "Bleu (Ciel)" },
+      { title: "Danielle (smile on my face)" },
+      { title: "Marea (we've lost dancing)" },
+      { title: "Kyle (i found you)" },
+      { title: "Jungle" },
+      { title: "Dermot (see yourself in my eyes)" },
+      { title: "Ten" },
+      { title: "Billie (loving me)" },
+      { title: "Beth (how I feel)" },
+      { title: "Sabrina (i am a party)" },
     ]
   },
   {
@@ -623,16 +602,16 @@ const users = [
     uploadDate: "2026-04-28",
     description: "Club tools and ambient adjacents. Stuff for the booth and stuff for the journey home.",
     tracks: [
-      { title: "Strings of Life", url: "https://open.spotify.com/track/0tgVpDi06FyKpA1z0VMD4v", type: "spotify_track" },
-      { title: "Can You Feel It", url: "https://open.spotify.com/track/4rC1bCECFk1RnlRVDe6Cg5", type: "spotify_track" },
-      { title: "Pacific State", url: "https://open.spotify.com/track/4tFEsqZFVpSI4mfIZXyCQL", type: "spotify_track" },
-      { title: "Energy Flash", url: "https://open.spotify.com/track/6FkfAfJkfBkxXIDMLjJ2S6", type: "spotify_track" },
-      { title: "Higher Ground", url: "https://open.spotify.com/track/2iHMBB3mYYi4bZRHqGxeXo", type: "spotify_track" },
-      { title: "Voodoo Ray", url: "https://open.spotify.com/track/1t3JlV0YjCRRPZBoPCgUzR", type: "spotify_track" },
-      { title: "Promised Land", url: "https://open.spotify.com/track/1M1hR2dE1bQCXqQkfE2Yxf", type: "spotify_track" },
-      { title: "Good Life", url: "https://open.spotify.com/track/0kTmJC7M04hcgOGxmjBF1R", type: "spotify_track" },
-      { title: "Move Your Body", url: "https://open.spotify.com/track/3YQKmKGau1PzlVlkL1iAx7", type: "spotify_track" },
-      { title: "Midnight", url: "https://open.spotify.com/track/4NHQUkpP3aPaGLP5EQDxjD", type: "spotify_track" },
+      { title: "Strings of Life" },
+      { title: "Can You Feel It" },
+      { title: "Pacific State" },
+      { title: "Energy Flash" },
+      { title: "Higher Ground" },
+      { title: "Voodoo Ray" },
+      { title: "Promised Land" },
+      { title: "Good Life" },
+      { title: "Move Your Body" },
+      { title: "Midnight" },
     ]
   },
   {
@@ -645,16 +624,16 @@ const users = [
     uploadDate: "2026-04-25",
     description: "A quiet ten. Things that have been looping in my headphones on long walks.",
     tracks: [
-      { title: "Gosh", url: "https://open.spotify.com/track/2c5bqgGGxmzGSIlFiAn3Y6", type: "spotify_track" },
-      { title: "Sleep Sound", url: "https://open.spotify.com/track/6r7U79w0JnZX5Wq6VL0wWk", type: "spotify_track" },
-      { title: "I Know There's Gonna Be (Good Times)", url: "https://open.spotify.com/track/3XzPyW3b5D0R11OhZcTMgL", type: "spotify_track" },
-      { title: "All Under One Roof Raving", url: "https://open.spotify.com/track/4oZzb9eWdK5b4H5t5mVFn6", type: "spotify_track" },
-      { title: "The Rest Is Noise", url: "https://open.spotify.com/track/5LCeLMGjhMCJJO3RRn3iQD", type: "spotify_track" },
-      { title: "Far Nearer", url: "https://open.spotify.com/track/0UL09TLJrjJbMpF1ZnWyKX", type: "spotify_track" },
-      { title: "Stranger In A Room", url: "https://open.spotify.com/track/2U5AH3VnBa0oj3p1BCMXO6", type: "spotify_track" },
-      { title: "Girl", url: "https://open.spotify.com/track/7e9e9Vgq5o4rRpgd0f9I7W", type: "spotify_track" },
-      { title: "SeeSaw", url: "https://open.spotify.com/track/3c1QwN6FxBXiXxrKV1l4F5", type: "spotify_track" },
-      { title: "Loud Places", url: "https://open.spotify.com/track/1CVLiEPUWCT8GEJZf0MJFL", type: "spotify_track" },
+      { title: "Gosh" },
+      { title: "Sleep Sound" },
+      { title: "I Know There's Gonna Be (Good Times)" },
+      { title: "All Under One Roof Raving" },
+      { title: "The Rest Is Noise" },
+      { title: "Far Nearer" },
+      { title: "Stranger In A Room" },
+      { title: "Girl" },
+      { title: "SeeSaw" },
+      { title: "Loud Places" },
     ]
   },
   {
@@ -667,16 +646,16 @@ const users = [
     uploadDate: "2026-04-20",
     description: "Ten records that changed something in me. From when I was young to now. Music that travels.",
     tracks: [
-      { title: "Superstition", url: "https://open.spotify.com/track/6JaWpGp3hbJSH8lNXqVtFY", type: "spotify_track" },
-      { title: "Higher Ground", url: "https://open.spotify.com/track/3EMeNXNu4QkEBrTpiB1S7S", type: "spotify_track" },
-      { title: "Living For The City", url: "https://open.spotify.com/track/2vSW8p6f7vMEy0Yad6m1bP", type: "spotify_track" },
-      { title: "As", url: "https://open.spotify.com/track/1yjskHlYFZiYY8Q0u2a0Pu", type: "spotify_track" },
-      { title: "Isn't She Lovely", url: "https://open.spotify.com/track/0fBCPmBXnTcGP9HNEcDW2o", type: "spotify_track" },
-      { title: "I Wish", url: "https://open.spotify.com/track/4mM7Q7T0G9BTD0Nt9s9xNn", type: "spotify_track" },
-      { title: "Pastime Paradise", url: "https://open.spotify.com/track/2tVHhKxDmKU6BpYM3c0pXA", type: "spotify_track" },
-      { title: "Golden Lady", url: "https://open.spotify.com/track/7K25A3jMgLOYqilW6GQABW", type: "spotify_track" },
-      { title: "All In Love Is Fair", url: "https://open.spotify.com/track/1XgLQaJi8bWkMlkC3rT4IP", type: "spotify_track" },
-      { title: "Sir Duke", url: "https://open.spotify.com/track/4SkmDJqVqBEGbFrU4vhPbV", type: "spotify_track" },
+      { title: "Superstition" },
+      { title: "Higher Ground" },
+      { title: "Living For The City" },
+      { title: "As" },
+      { title: "Isn't She Lovely" },
+      { title: "I Wish" },
+      { title: "Pastime Paradise" },
+      { title: "Golden Lady" },
+      { title: "All In Love Is Fair" },
+      { title: "Sir Duke" },
     ]
   },
   {
@@ -689,16 +668,16 @@ const users = [
     uploadDate: "2026-04-15",
     description: "Music I return to when thinking. Quiet, structural, honest. Each one has a kind of integrity.",
     tracks: [
-      { title: "Music For Airports 1/1", url: "https://open.spotify.com/track/2PLxMKFOiGOPeqmMqB3J95", type: "spotify_track" },
-      { title: "An Ending (Ascent)", url: "https://open.spotify.com/track/2WEBMz4gzlMd7PMAF4p7hE", type: "spotify_track" },
-      { title: "Gymnopédie No.1", url: "https://open.spotify.com/track/3fRnMWvUzLX3GXZqaLB0U9", type: "spotify_track" },
-      { title: "Metamorphosis One", url: "https://open.spotify.com/track/4cIaL8yLUDmfm0wqBEV7eD", type: "spotify_track" },
-      { title: "On the Nature of Daylight", url: "https://open.spotify.com/track/1AWNp2zXFHBB4gG48OGJLM", type: "spotify_track" },
-      { title: "Nuvole Bianche", url: "https://open.spotify.com/track/3bNv3VuUOKgrf5R3H9oQBo", type: "spotify_track" },
-      { title: "Experience", url: "https://open.spotify.com/track/3JgWsVN2jjzLXKuVxH3Zii", type: "spotify_track" },
-      { title: "Comptine d'Un Autre Été", url: "https://open.spotify.com/track/6xRUpzb3bxViFMHYEfOWOz", type: "spotify_track" },
-      { title: "Divenire", url: "https://open.spotify.com/track/5j2KIJNMJlPNGGKv0pvRaN", type: "spotify_track" },
-      { title: "Spiegel im Spiegel", url: "https://open.spotify.com/track/4kEZqRPrJkLhFZX7nVEYwl", type: "spotify_track" },
+      { title: "Music For Airports 1/1" },
+      { title: "An Ending (Ascent)" },
+      { title: "Gymnopédie No.1" },
+      { title: "Metamorphosis One" },
+      { title: "On the Nature of Daylight" },
+      { title: "Nuvole Bianche" },
+      { title: "Experience" },
+      { title: "Comptine d'Un Autre Été" },
+      { title: "Divenire" },
+      { title: "Spiegel im Spiegel" },
     ]
   },
   {
@@ -711,16 +690,16 @@ const users = [
     uploadDate: "2026-04-10",
     description: "Weekend stuff. Dance floor, back room energy. Tracks for when things warm up.",
     tracks: [
-      { title: "Planet Rock", url: "https://open.spotify.com/track/0LfCIlJOMLGEFgdtHPmVGU", type: "spotify_track" },
-      { title: "The Bells", url: "https://open.spotify.com/track/7eOsrMkNnN3wSRE9P9bLkF", type: "spotify_track" },
-      { title: "Nude Photo", url: "https://open.spotify.com/track/3B82KP6SHGz1CiN7U7QHZB", type: "spotify_track" },
-      { title: "Mystery of Love", url: "https://open.spotify.com/track/1YsX1RVnT4YCrGrVdnBanA", type: "spotify_track" },
-      { title: "French Kiss", url: "https://open.spotify.com/track/2WB9pREgjlqWQmZNDPG21t", type: "spotify_track" },
-      { title: "Do It Again", url: "https://open.spotify.com/track/2G5XkMBFlONgLPGFM1E3SZ", type: "spotify_track" },
-      { title: "Pump Up The Volume", url: "https://open.spotify.com/track/5WspAJgT0Z8N1Wb3ZSInOj", type: "spotify_track" },
-      { title: "Jack Your Body", url: "https://open.spotify.com/track/1T7h7MuCoaH6rz2hnnp2aG", type: "spotify_track" },
-      { title: "Love Can't Turn Around", url: "https://open.spotify.com/track/0ib8U3PN1Q1n15WMzpBPn7", type: "spotify_track" },
-      { title: "Move Your Body (The House Music Anthem)", url: "https://open.spotify.com/track/3VIB3cjxoaVmz2V1Z2nMKl", type: "spotify_track" },
+      { title: "Planet Rock" },
+      { title: "The Bells" },
+      { title: "Nude Photo" },
+      { title: "Mystery of Love" },
+      { title: "French Kiss" },
+      { title: "Do It Again" },
+      { title: "Pump Up The Volume" },
+      { title: "Jack Your Body" },
+      { title: "Love Can't Turn Around" },
+      { title: "Move Your Body (The House Music Anthem)" },
     ]
   },
   {
@@ -733,16 +712,16 @@ const users = [
     uploadDate: "2026-04-02",
     description: "My spring list. Took a while to get to ten but these are the ones that stayed.",
     tracks: [
-      { title: "Cercle de Craie", url: "https://open.spotify.com/track/3cWqj0e3I0yCmMq0pRqW3Z", type: "spotify_track" },
-      { title: "Spring Heel Jack", url: "https://open.spotify.com/track/0I4wSS7j1gEEMaC4lJKBqI", type: "spotify_track" },
-      { title: "It's Better To Travel", url: "https://open.spotify.com/track/2o4GhkfTv9QXJX8uuCOXhF", type: "spotify_track" },
-      { title: "Acid Rain", url: "https://open.spotify.com/track/4yHbGSV3RVNYxF1Qb9iLHc", type: "spotify_track" },
-      { title: "The Race", url: "https://open.spotify.com/track/7eFg3N3seFzl3RAnRzMpIN", type: "spotify_track" },
-      { title: "Something Good", url: "https://open.spotify.com/track/4cXfvU5Vy9rFmHGJ3b1VAl", type: "spotify_track" },
-      { title: "Clear", url: "https://open.spotify.com/track/0wRHCVgJFfpJP5M9REbHSo", type: "spotify_track" },
-      { title: "Derrick May - Strings Of Life", url: "https://open.spotify.com/track/7dYiMWmN8pY8D1fwLl3h0C", type: "spotify_track" },
-      { title: "Orange Mecanique", url: "https://open.spotify.com/track/4d5t4hJpwPDXe5B8A2lOFH", type: "spotify_track" },
-      { title: "Theme From S-Express", url: "https://open.spotify.com/track/2cJeXFfKo3B4hqVbWPo0qE", type: "spotify_track" },
+      { title: "Cercle de Craie" },
+      { title: "Spring Heel Jack" },
+      { title: "It's Better To Travel" },
+      { title: "Acid Rain" },
+      { title: "The Race" },
+      { title: "Something Good" },
+      { title: "Clear" },
+      { title: "Derrick May - Strings Of Life" },
+      { title: "Orange Mecanique" },
+      { title: "Theme From S-Express" },
     ]
   },
   {
@@ -755,16 +734,16 @@ const users = [
     uploadDate: "2026-03-27",
     description: "Ten tracks I played back to back in my head on a long flight. Mostly older stuff with a few surprises.",
     tracks: [
-      { title: "Into the Valley", url: "https://open.spotify.com/track/5ILj7gHxKIlAP0Ua2eOmVH", type: "spotify_track" },
-      { title: "Warm Leatherette", url: "https://open.spotify.com/track/1fFsf8U4vkiU4mfEBYBVDf", type: "spotify_track" },
-      { title: "Being Boiled", url: "https://open.spotify.com/track/3SoEuMGnDk2WCXm7nGYwip", type: "spotify_track" },
-      { title: "Atmosphere", url: "https://open.spotify.com/track/7wEw78RWlrOFRaLcFmOjOi", type: "spotify_track" },
-      { title: "Bela Lugosi's Dead", url: "https://open.spotify.com/track/0RKwwRBgHjlRBPPVjHWEoX", type: "spotify_track" },
-      { title: "She's Lost Control", url: "https://open.spotify.com/track/29cNSnRyxFCVE6dJqt1L2D", type: "spotify_track" },
-      { title: "Transmission", url: "https://open.spotify.com/track/5U7rVBBhiMDxRi9V1VdBY9", type: "spotify_track" },
-      { title: "Love Will Tear Us Apart", url: "https://open.spotify.com/track/3YHFevY6J0d7GrWN2zFYRu", type: "spotify_track" },
-      { title: "Blue Monday", url: "https://open.spotify.com/track/0Gi2VPWbLAE6Ob8DMBmJEQ", type: "spotify_track" },
-      { title: "True Faith", url: "https://open.spotify.com/track/3eZ7QKt8BoQaICXPWpZXLR", type: "spotify_track" },
+      { title: "Into the Valley" },
+      { title: "Warm Leatherette" },
+      { title: "Being Boiled" },
+      { title: "Atmosphere" },
+      { title: "Bela Lugosi's Dead" },
+      { title: "She's Lost Control" },
+      { title: "Transmission" },
+      { title: "Love Will Tear Us Apart" },
+      { title: "Blue Monday" },
+      { title: "True Faith" },
     ]
   },
   {
@@ -777,16 +756,16 @@ const users = [
     uploadDate: "2026-03-20",
     description: "Basement session vibes. Ten tracks that make a room feel like something.",
     tracks: [
-      { title: "Midnight Ravers", url: "https://open.spotify.com/track/3g9oPFkHnzC7pkmx3VWGy5", type: "spotify_track" },
-      { title: "Pressure Drop", url: "https://open.spotify.com/track/4mJJSHk3fBAbSM1dJkR1Jr", type: "spotify_track" },
-      { title: "Night Nurse", url: "https://open.spotify.com/track/0MHdT2g3bWd8X5h1O0LLQP", type: "spotify_track" },
-      { title: "Duppy Conqueror", url: "https://open.spotify.com/track/1x9JFSUDf0S3WtQiGPmpGV", type: "spotify_track" },
-      { title: "Rivers of Babylon", url: "https://open.spotify.com/track/3bEGicSmGEIbE4fHdvSBBU", type: "spotify_track" },
-      { title: "Here I Come", url: "https://open.spotify.com/track/5ZFAeEW0VQdJLB7wM4JFOK", type: "spotify_track" },
-      { title: "Roast Fish and Cornbread", url: "https://open.spotify.com/track/3aqpBClZs5kbRaP7A0VNKM", type: "spotify_track" },
-      { title: "Satta Massagana", url: "https://open.spotify.com/track/1UjL42t4Y3vZFfUhzBV5Jo", type: "spotify_track" },
-      { title: "Skylarking", url: "https://open.spotify.com/track/5GfbhSE0OZM3Hs00kUFNpq", type: "spotify_track" },
-      { title: "Pass the Dutchie", url: "https://open.spotify.com/track/3DaEaGYNW3x7gqWRuMkEcT", type: "spotify_track" },
+      { title: "Midnight Ravers" },
+      { title: "Pressure Drop" },
+      { title: "Night Nurse" },
+      { title: "Duppy Conqueror" },
+      { title: "Rivers of Babylon" },
+      { title: "Here I Come" },
+      { title: "Roast Fish and Cornbread" },
+      { title: "Satta Massagana" },
+      { title: "Skylarking" },
+      { title: "Pass the Dutchie" },
     ]
   },
 ];
@@ -799,8 +778,22 @@ function formatDate(str) {
   return str;
 }
 
-function isAudioFile(url) {
-  return /\.(mp3|wav|ogg|m4a)(\?.*)?$/i.test(url);
+function slugifyTrackTitle(title) {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function localAudioPath(track) {
+  if (track.url && /\.(mp3|wav|ogg|m4a)(\?.*)?$/i.test(track.url)) {
+    return track.url;
+  }
+
+  return `./audio/${slugifyTrackTitle(track.title)}.mp3`;
 }
 
 /* ─────────────────────────────────────────────
@@ -822,153 +815,129 @@ users.forEach((user, i) => {
   row.innerHTML = `
     <span class="dot dot-${user.color}"></span>
     <span class="user-name">${user.name}</span>
+    <span class="user-role-inline">${user.role}</span>
     <span class="user-date">${user.date}</span>
   `;
   row.addEventListener("click", () => selectUser(user.id, row));
   row.addEventListener("keydown", e => { if (e.key === "Enter") selectUser(user.id, row); });
   sidebar.appendChild(row);
+  const inlinePanel = document.createElement("div");
+  inlinePanel.className = "panel inline-panel";
+  inlinePanel.dataset.userId = user.id;
+  inlinePanel.style.display = "none";
+  sidebar.appendChild(inlinePanel);
 });
 
 /* ─────────────────────────────────────────────
    SELECT USER
 ───────────────────────────────────────────── */
 
-let activeEmbedArea = null;
 let activeUserId = null;
-const mobilePanels = new Map();
-let manifestoOpen = false;
-
 function selectUser(id, clickedRow = null) {
   const user = users.find(u => u.id === id);
   if (!user) return;
 
-  const isMobile = window.innerWidth <= 720;
-  const empty = document.getElementById("empty");
-  const activeRow = document.querySelector(`[data-id="${id}"]`);
-  const targetRow = clickedRow || activeRow;
+  const row = clickedRow || document.querySelector(`[data-id="${id}"]`);
+  const panel = document.querySelector(`.inline-panel[data-user-id="${id}"]`);
+  if (!row || !panel) return;
 
-  empty.style.display = "none";
+  const isOpen = panel.classList.contains("visible");
 
-  if (isMobile && targetRow) {
-    let panel = mobilePanels.get(id);
+  // Removed automatic close of other panels and user-row active states
 
-    if (!panel) {
-      panel = document.createElement("div");
-      panel.className = "panel";
-      panel.dataset.userId = id;
-      panel.style.display = "none";
-      panel.innerHTML = buildPanel(user);
-      mobilePanels.set(id, panel);
-    }
-
-    if (panel.dataset.animating === "true") return;
-
-    const isOpen = panel.classList.contains("visible");
-
-    if (isOpen) {
-      panel.dataset.animating = "true";
-      panel.style.transitionDuration = "0.32s, 0.32s, 0.32s, 0.22s, 0.32s";
-      panel.style.maxHeight = `${panel.scrollHeight}px`;
-
-      requestAnimationFrame(() => {
-        panel.classList.remove("visible");
-        panel.style.maxHeight = "0px";
-      });
-
-      targetRow.classList.remove("active");
-
-      window.setTimeout(() => {
-        panel.style.display = "none";
-        panel.style.maxHeight = "";
-        panel.style.transitionDuration = "";
-        panel.dataset.animating = "false";
-      }, 340);
-
-      return;
-    }
-
-    targetRow.classList.add("active");
-    targetRow.insertAdjacentElement("afterend", panel);
-
-    panel.dataset.animating = "true";
-    panel.style.display = "block";
-    panel.style.maxHeight = "0px";
-    panel.classList.remove("visible");
-
+  if (isOpen) {
+    row.classList.remove("active");
+    panel.style.maxHeight = `${panel.scrollHeight}px`;
     requestAnimationFrame(() => {
-      panel.classList.add("visible");
-      panel.style.maxHeight = `${panel.scrollHeight}px`;
-
-      window.setTimeout(() => {
-        panel.style.maxHeight = "none";
-        panel.dataset.animating = "false";
-      }, 760);
+      panel.classList.remove("visible");
+      panel.style.maxHeight = "0px";
     });
-
-    return;
-  }
-
-  const panel = document.getElementById("panel");
-
-  if (activeUserId === id && panel.classList.contains("visible")) {
-    panel.classList.remove("visible");
-    document.querySelectorAll(".user-row").forEach(r => r.classList.remove("active"));
-    activeUserId = null;
-
     window.setTimeout(() => {
-      panel.style.display = "none";
-      panel.innerHTML = "";
-    }, 420);
-
+      if (!panel.classList.contains("visible")) {
+        panel.style.display = "none";
+        panel.innerHTML = "";
+      }
+    }, 450);
+    if (activeUserId === id) activeUserId = null;
     return;
   }
 
-  document.querySelectorAll(".user-row").forEach(r => r.classList.remove("active"));
-  if (activeRow) activeRow.classList.add("active");
+  row.classList.add("active");
   activeUserId = id;
-
-  panel.dataset.userId = id;
-  panel.style.display = "block";
-  panel.classList.remove("visible");
   panel.innerHTML = buildPanel(user);
-  document.getElementById("main").appendChild(panel);
+  panel.style.display = "block";
+  panel.style.maxHeight = "0px";
+  panel.classList.remove("visible");
 
-  requestAnimationFrame(() => panel.classList.add("visible"));
+  requestAnimationFrame(() => {
+    panel.classList.add("visible");
+    panel.style.maxHeight = `${panel.scrollHeight}px`;
+  });
 }
 
 function buildPanel(user) {
   const trackItems = user.tracks.map((t, i) => `
-    <li class="track" data-index="${i}" data-url="${t.url}">
-      <span class="track-num">${String(i + 1).padStart(2, "0")}</span>
+    <li class="track" data-index="${i}" data-url="${localAudioPath(t)}">
       <span class="track-title">${t.title}</span>
-      <button class="track-copy" type="button" data-copy="${t.title} — ${user.name}">COPY</button>
-      <span class="track-play">
-        <svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg>
-      </span>
+      <span class="track-artist">${t.artist || user.name}</span>
+      <button class="track-copy" type="button" data-copy="${t.title} — ${t.artist || user.name}">COPY</button>
     </li>
   `).join("");
 
   return `
-    <div class="panel-header">
-      <div class="panel-artist">${user.name}</div>
-      <div class="panel-meta-top">
-        ${user.role}<br>
-        ${user.location}
+    <div class="panel-inner">
+      <div class="panel-header">
+        <div class="panel-artist">${user.name}</div>
+        <div class="panel-meta-top">${user.role}</div>
       </div>
-    </div>
+      <ul class="tracklist">
+        ${trackItems}
+      </ul>
 
-    <ul class="tracklist">
-      ${trackItems}
-    </ul>
-
-    <div class="panel-footer">
-      <p class="panel-desc">${user.description}</p>
-      <div class="panel-stats">
-        10 Songs<br>
-        Uploaded ${user.uploadDate}
+      <div class="panel-footer">
+        <p class="panel-desc">${user.description}</p>
+        <div class="panel-stats">
+          Uploaded ${user.uploadDate} 23:32<br>
+          Insta
+        </div>
       </div>
     </div>
   `;
+}
+
+/* ─────────────────────────────────────────────
+   MANIFESTO PANEL
+───────────────────────────────────────────── */
+const manifestoButton = document.getElementById("manifesto-button");
+const manifestoPanel = document.getElementById("manifesto-panel");
+
+if (manifestoButton && manifestoPanel) {
+  manifestoButton.addEventListener("click", () => {
+    const isOpen = manifestoPanel.classList.contains("visible");
+
+    if (isOpen) {
+      manifestoPanel.style.maxHeight = `${manifestoPanel.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        manifestoPanel.classList.remove("visible");
+        manifestoButton.classList.remove("active");
+        manifestoPanel.style.maxHeight = "0px";
+      });
+      window.setTimeout(() => {
+        if (!manifestoPanel.classList.contains("visible")) {
+          manifestoPanel.style.display = "none";
+        }
+      }, 450);
+      return;
+    }
+
+    manifestoPanel.style.display = "block";
+    manifestoPanel.style.maxHeight = "0px";
+    requestAnimationFrame(() => {
+      manifestoPanel.classList.add("visible");
+      manifestoButton.classList.add("active");
+      manifestoPanel.style.maxHeight = `${manifestoPanel.scrollHeight}px`;
+    });
+  });
 }
 
 /* ─────────────────────────────────────────────
@@ -984,11 +953,10 @@ document.addEventListener("click", async e => {
 
   try {
     await navigator.clipboard.writeText(text);
-    const original = copyBtn.textContent;
-    copyBtn.textContent = "COPIED";
+    copyBtn.classList.add("copied");
 
     window.setTimeout(() => {
-      copyBtn.textContent = original;
+      copyBtn.classList.remove("copied");
     }, 900);
   } catch (error) {
     console.warn("Could not copy text", error);
@@ -1015,7 +983,6 @@ document.addEventListener("click", e => {
 
   document.querySelectorAll(".track").forEach(r => {
     r.classList.remove("active");
-    r.style.fontWeight = "";
   });
 
   if (wasActive) {
@@ -1024,86 +991,24 @@ document.addEventListener("click", e => {
     return;
   }
 
-  if (!isAudioFile(t.url)) {
-    console.warn("This track needs a local audio file, for example ./audio/song-name.mp3", t.url);
-    return;
-  }
+  const src = localAudioPath(t);
 
-  audio.src = t.url;
-  audio.play();
+  audio.src = src;
+  audio.play().catch(error => {
+    console.warn("Could not play local audio file. Make sure the MP3 exists here:", src, error);
+  });
 
   track.classList.add("active");
-  track.style.fontWeight = "500";
 });
 
 const audioPlayer = document.getElementById("audio-player");
 audioPlayer.addEventListener("ended", () => {
   document.querySelectorAll(".track").forEach(r => {
     r.classList.remove("active");
-    r.style.fontWeight = "";
   });
 });
 
  
-
-/* ─────────────────────────────────────────────
-   MANIFESTO PANEL
-───────────────────────────────────────────── */
-const manifestoButton = document.getElementById("manifesto-button");
-const manifestoPanel = document.getElementById("manifesto-panel");
-
-manifestoButton.addEventListener("click", () => {
-  const isMobile = window.innerWidth <= 720;
-
-  if (manifestoOpen) {
-    if (isMobile) {
-      manifestoPanel.style.maxHeight = `${manifestoPanel.scrollHeight}px`;
-      manifestoPanel.style.transitionDuration = "0.32s, 0.32s, 0.32s, 0.22s, 0.32s";
-
-      requestAnimationFrame(() => {
-        manifestoPanel.classList.remove("visible");
-        manifestoPanel.style.maxHeight = "0px";
-      });
-
-      window.setTimeout(() => {
-        manifestoPanel.style.display = "none";
-        manifestoPanel.style.maxHeight = "";
-        manifestoPanel.style.transitionDuration = "";
-      }, 340);
-    } else {
-      manifestoPanel.classList.remove("visible");
-
-      window.setTimeout(() => {
-        manifestoPanel.style.display = "none";
-      }, 420);
-    }
-
-    manifestoOpen = false;
-    return;
-  }
-
-  manifestoPanel.style.display = "block";
-  manifestoPanel.classList.remove("visible");
-
-  if (isMobile) {
-    sidebar.insertBefore(manifestoPanel, label.nextSibling);
-    manifestoPanel.style.maxHeight = "0px";
-
-    requestAnimationFrame(() => {
-      manifestoPanel.classList.add("visible");
-      manifestoPanel.style.maxHeight = `${manifestoPanel.scrollHeight}px`;
-
-      window.setTimeout(() => {
-        manifestoPanel.style.maxHeight = "none";
-      }, 760);
-    });
-  } else {
-    document.getElementById("main").appendChild(manifestoPanel);
-    requestAnimationFrame(() => manifestoPanel.classList.add("visible"));
-  }
-
-  manifestoOpen = true;
-});
 
 /* ─────────────────────────────────────────────
    START CLOSED
