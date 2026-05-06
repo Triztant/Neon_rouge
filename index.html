@@ -748,6 +748,12 @@ users.forEach((user, i) => {
   inlinePanel.dataset.userId = user.id;
   inlinePanel.style.display = "none";
   sidebar.appendChild(inlinePanel);
+  // Start all panels open
+  row.classList.add("active");
+  inlinePanel.innerHTML = buildPanel(user);
+  inlinePanel.style.display = "block";
+  inlinePanel.classList.add("visible");
+  inlinePanel.style.maxHeight = "none";
 });
 
 /* ─────────────────────────────────────────────
