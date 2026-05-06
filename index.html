@@ -49,10 +49,10 @@
       --box-border-width: 1px;
 
       /* Header box */
-      --header-padding-top: 24px;
-      --header-padding-right: 38px;
-      --header-padding-bottom: 22px;
-      --header-padding-left: 38px;
+      --header-padding-top: 1.5rem;
+      --header-padding-right: 3vw;
+      --header-padding-bottom: 1.4rem;
+      --header-padding-left: 3vw;
 
       /* Logo type */
       --logo-size-min: 54px;
@@ -63,76 +63,78 @@
       --logo-weight: 400;
 
       /* Name rows */
-      --row-name-size: 26px;
+      --row-name-size: clamp(1.2rem, 2vw, 1.65rem);
       --row-name-leading: 1;
       --row-name-tracking: -0.065em;
       --row-name-weight: 400;
-      --row-min-height: 72px;
-      --row-padding-top: 20px;
-      --row-padding-right: 38px;
-      --row-padding-bottom: 20px;
-      --row-padding-left: 38px;
+      --row-min-height: 8vh;
+      --row-padding-top: 1.2rem;
+      --row-padding-right: 3vw;
+      --row-padding-bottom: 1.2rem;
+      --row-padding-left: 3vw;
       --row-column-1-min: 210px;
       --row-column-2-min: 240px;
       --row-date-column-width: 108px;
-      --row-column-gap: 26px;
+      --row-column-gap: 2vw;
 
       /* Small meta type */
-      --meta-size: 11px;
+      --meta-size: clamp(0.6rem, 0.7vw, 0.72rem);
       --meta-leading: 1.2;
       --meta-tracking: -0.045em;
 
       /* Open panel */
-      --panel-padding-top: 20px;
-      --panel-padding-right: 38px;
-      --panel-padding-bottom: 24px;
-      --panel-padding-left: 38px;
-      --panel-header-gap: 20px;
+      --panel-padding-top: 1.2rem;
+      --panel-padding-right: 3vw;
+      --panel-padding-bottom: 1.5rem;
+      --panel-padding-left: 3vw;
+      --panel-header-gap: 2vw;
       --panel-header-meta-width: 190px;
-      --panel-artist-size: 26px;
+      --panel-artist-size: clamp(1.2rem, 2vw, 1.65rem);
       --panel-artist-leading: 1;
       --panel-artist-tracking: -0.065em;
       --panel-artist-weight: 400;
 
       /* Track list */
-      --track-size: 15px;
+      --track-size: clamp(0.75rem, 1vw, 0.95rem);
       --track-leading: 1.25;
       --track-tracking: -0.05em;
       --track-min-height: 20px;
       --track-padding-y: 1px;
       --track-padding-x: 0px;
-      --track-column-gap: 24px;
+      --track-column-gap: 2vw;
       --track-copy-column-width: 0px;
       --active-bar-height: 3px;
       --active-bar-bottom: 0px;
       --active-bar-right: 0px;
+      --dot-offset: -120%;
+      --dot-offset-mobile: -110%;
 
       /* Footer text */
-      --desc-size: 12px;
+      --desc-size: clamp(0.7rem, 0.85vw, 0.8rem);
       --desc-leading: 1.2;
       --desc-tracking: -0.04em;
       --desc-max-width: 560px;
-      --stats-size: 10px;
+      --stats-size: clamp(0.58rem, 0.7vw, 0.68rem);
       --stats-leading: 1.5;
 
       /* Mobile controls */
-      --mobile-header-padding-top: 22px;
-      --mobile-header-padding-right: 22px;
-      --mobile-header-padding-bottom: 20px;
-      --mobile-header-padding-left: 22px;
+      --mobile-header-padding-top: 1.2rem;
+      --mobile-header-padding-right: 5vw;
+      --mobile-header-padding-bottom: 1rem;
+      --mobile-header-padding-left: 5vw;
       --mobile-logo-size: 54px;
-      --mobile-row-name-size: 24px;
-      --mobile-row-min-height: 68px;
-      --mobile-row-padding-top: 18px;
-      --mobile-row-padding-right: 22px;
-      --mobile-row-padding-bottom: 18px;
-      --mobile-row-padding-left: 22px;
-      --mobile-panel-padding-top: 18px;
-      --mobile-panel-padding-right: 22px;
-      --mobile-panel-padding-bottom: 20px;
-      --mobile-panel-padding-left: 22px;
-      --mobile-panel-artist-size: 24px;
-      --mobile-track-size: 14px;
+      --mobile-row-name-size: clamp(1rem, 5vw, 1.4rem);
+      --mobile-row-min-height: 7vh;
+      --mobile-row-padding-top: 1rem;
+      --mobile-row-padding-right: 5vw;
+      --mobile-row-padding-bottom: 1rem;
+      --mobile-row-padding-left: 5vw;
+      --mobile-panel-padding-top: 1rem;
+      --mobile-panel-padding-right: 5vw;
+      --mobile-panel-padding-bottom: 1.2rem;
+      --mobile-panel-padding-left: 5vw;
+      --mobile-panel-artist-size: clamp(1rem, 5vw, 1.4rem);
+      --mobile-track-size: clamp(0.7rem, 3vw, 0.9rem);
 
       /* Backwards-compatible aliases */
       --font: var(--font-body);
@@ -366,7 +368,7 @@
     .track-playing {
       display: inline-block;
       position: absolute;
-      left: calc(-1 * var(--panel-padding-left));
+      left: var(--dot-offset);
       top: 50%;
       width: 6px;
       height: 6px;
@@ -555,7 +557,7 @@
       }
 
       .track-playing {
-        left: calc(-1 * var(--mobile-panel-padding-left));
+        left: var(--dot-offset-mobile);
       }
 
       .track-copy {
