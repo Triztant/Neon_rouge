@@ -474,7 +474,7 @@
 
     .manifesto-panel {
       background: var(--page);
-      border-top: 3px solid var(--line);
+      border-top: none;
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.45s ease;
@@ -491,6 +491,14 @@
       line-height: var(--desc-leading);
       letter-spacing: var(--desc-tracking);
       max-width: var(--desc-max-width);
+    }
+
+    .manifesto-text p {
+      margin-bottom: 1.2em;
+    }
+
+    .manifesto-text p:last-child {
+      margin-bottom: 0;
     }
 
     @media (max-width: 720px) {
@@ -596,34 +604,30 @@
     <p class="sidebar-label"></p>
     <div class="panel manifesto-panel" id="manifesto-panel" style="display:none">
       <div class="manifesto-text">
-       <div class="manifesto-text">
-         .manifesto-text p {margin-bottom: 1.2em;}
-   .manifesto-text p:last-child {margin-bottom: 0;}
-  <p>
-    This platform exists to share music in a more direct and intentional way.
-    The goal is to create a space built around genuine taste, discovery, and
-    personal connection rather than recommendation engines optimised for
-    engagement. Every selection shared on the platform comes from real personal
-    interest — not marketing, playlist placement, label strategy, or trend cycles.
-  </p>
+        <p>
+          This platform exists to share music in a more direct and intentional way.
+          The goal is to create a space built around genuine taste, discovery, and
+          personal connection rather than recommendation engines optimised for
+          engagement. Every selection shared on the platform comes from real personal
+          interest — not marketing, playlist placement, label strategy, or trend cycles.
+        </p>
 
-  <p>
-    As music discovery has become increasingly shaped by algorithms, sponsored
-    promotion, and short-form virality, much of the experience around finding
-    music has started to feel flattened and disconnected.
-  </p>
+        <p>
+          As music discovery has become increasingly shaped by algorithms, sponsored
+          promotion, and short-form virality, much of the experience around finding
+          music has started to feel flattened and disconnected.
+        </p>
 
-  <p>
-    This project is a simple alternative: a place where artists, designers,
-    DJs, writers, and others can share ten tracks or sounds that genuinely
-    matter to them, directly with listeners.
-  </p>
+        <p>
+          This project is a simple alternative: a place where artists, designers,
+          DJs, writers, and others can share ten tracks or sounds that genuinely
+          matter to them, directly with listeners.
+        </p>
 
-  <p>
-    There are no rankings, no metrics, and no pressure to perform.
-    Just people passing music on because they believe it is worth hearing.
-  </p>
-</div>
+        <p>
+          There are no rankings, no metrics, and no pressure to perform.
+          Just people passing music on because they believe it is worth hearing.
+        </p>
       </div>
     </div>
     <!-- populated by JS -->
