@@ -13,9 +13,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     @font-face {
-      font-family: "Suisse Intl bold";
-      src: url("Suisse_Intl_Bold.ttf") format("truetype");
-      font-weight: 500;
+      font-family: "Suisse Intl";
+      src: url("fonnts.com-Suisse_Intl_Medium.ttf") format("truetype"),
+           url("fonnts.com-Suisse_Intl_bold.ttf") format("truetype");
+      font-weight: 400 700;
       font-style: normal;
       font-display: swap;
     }
@@ -36,11 +37,11 @@
       --bar: #ffffff;
 
       /* Fonts */
-      --font-logo: "Times New Roman", Times, serif;
-      --font-names: "Times New Roman", Times, serif;
-      --font-tracks: "Suisse Intl bold", Arial, Helvetica, sans-serif;
-      --font-meta: "Suisse Intl bold", Arial, Helvetica, sans-serif;
-      --font-body: "Times New Roman", Times, serif;
+      --font-logo: "Suisse Intl", Arial, Helvetica, sans-serif;
+      --font-names: "Suisse Intl", Arial, Helvetica, sans-serif;
+      --font-tracks: "Suisse Intl", Arial, Helvetica, sans-serif;
+      --font-meta: "Suisse Intl", Arial, Helvetica, sans-serif;
+      --font-body: "Suisse Intl", Arial, Helvetica, sans-serif;
 
       /* Overall page box */
       --page-width: 100vw;
@@ -589,7 +590,7 @@
     <div class="panel manifesto-panel" id="manifesto-panel" style="display:none">
       <div class="manifesto-text">
         <p>Recommendation engines have become blunt tools for something that’s actually quite delicate, optimised for engagement instead of experience. 
-           They don’t understand the feeling of finding a track that really hits, and over time they’ve flattened taste into the same loop. 
+        They don’t understand the feeling of finding a track that really hits, and over time they’ve flattened taste into the same loop. 
            <p> This is a simple alternative: a place to share music directly, person to person. No labels, no push, no algorithm —just ten tracks, chosen and passed on because they’re actually worth it.</p>
       </div>
     </div>
@@ -622,7 +623,7 @@ const users = [
     role: "Designer",
     location: "Paris",
     uploadDate: "2026-03-19",
-    
+    description: ,
     tracks: [
       { title: "Cherry-coloured Funk", artist: "Cocteau Twins", url: "Cocteau_Twins_Cherry_coloured_Funk.mp3" },
       { title: "E Depois Do Adeus", artist: "Paulo de Carvalho", url: "E_Depois_Do_Adeus.mp3" },
@@ -637,11 +638,11 @@ const users = [
     ]
   },
   {
-    id: "Eva Watkins",
-    name: "Babyschön",
+    id: "Babyschön",
+    name: "Eva Watkins",
     date: "29/04/26",
     color: "green",
-    role: "NTS Host",
+    role: "Musicien",
     location: "London",
     uploadDate: "2026-04-29",
     description: "Some of the sounds that have been living on my hard drive. Not a release, just things I keep returning to.",
