@@ -603,7 +603,7 @@
     </div>
     <div class="panel" id="panel" style="display:none"></div>
   </main>
-<\/div>
+</div>
 
 <script>
 /* ─────────────────────────────────────────────
@@ -931,6 +931,7 @@ document.addEventListener("click", e => {
 });
 
 const audioPlayer = document.getElementById("audio-player");
+audioPlayer.volume = 0.45;
 audioPlayer.addEventListener("ended", () => {
   document.querySelectorAll(".track").forEach(r => {
     r.classList.remove("active");
