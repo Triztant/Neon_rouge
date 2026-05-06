@@ -105,9 +105,8 @@
       --track-copy-column-width: 0px;
       --active-bar-height: 3px;
       --active-bar-bottom: 0px;
-            --dot-offset: calc(-0.75 * var(--panel-padding-left));
-      --dot-offset-mobile: calc(-0.75 * var(--mobile-panel-padding-left));
-      --dot-offset-mobile: -110%;
+      --dot-size: 0.38em;
+      --dot-gap: 0.45em;
 
       /* Footer text */
       --desc-size: clamp(0.7rem, 0.85vw, 0.8rem);
@@ -363,27 +362,27 @@
     .track-title {
       position: relative;
       z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--dot-gap);
     }
 
    .track-playing {
     display: inline-block;
-    position: absolute;
-    left: -80%;
-    top: 50%;
-         width: 0.38em;
-      height: 0.38em;
-   margin-right: 0;
-   border-radius: 50%;
-   background: var(--text);
-   opacity: 0;
-   transform: translateY(-50%) scale(0.6);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-   z-index: 2;
+    position: static;
+    width: var(--dot-size);
+    height: var(--dot-size);
+    flex: 0 0 var(--dot-size);
+    border-radius: 50%;
+    background: var(--text);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .track.active .track-playing {
       opacity: 1;
-      transform: translateY(-50%) scale(1);
+      transform: scale(1);
     }
 
     .track-artist {
@@ -556,9 +555,6 @@
         white-space: nowrap;
       }
 
-      .track-playing {
-        left: var(--dot-offset-mobile);
-      }
 
       .track-copy {
         font-size: 9px;
@@ -804,8 +800,7 @@ function selectUser(id, clickedRow = null) {
 function buildPanel(user) {
   const trackItems = user.tracks.map((t, i) => `
     <li class="track" data-index="${i}" data-url="${localAudioPath(t)}">
-      <span class="track-playing"></span>
-      <span class="track-title">${t.title}</span>
+      <span class="track-title"><span class="track-playing"></span>${t.title}</span>
       <span class="track-artist">${t.artist || user.name}</span>
       <button class="track-copy" type="button" data-copy="${t.title} — ${t.artist || user.name}">COPY</button>
     </li>
