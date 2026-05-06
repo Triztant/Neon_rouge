@@ -365,20 +365,20 @@
       z-index: 1;
     }
 
-    .track-playing {
-      display: inline-block;
-      position: absolute;
-      left: var(--dot-offset);
-      top: 50%;
-      width: 6px;
-      height: 6px;
-      margin-right: 0;
-      border-radius: 50%;
-      background: var(--text);
-      opacity: 0;
-      transform: translateY(-20%) scale(1);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      z-index: 2;
+   .track-playing {
+    display: inline-block;
+    position: absolute;
+    left: -80%;
+    top: 50%;
+    width: 0.35rem;
+    height: 0.35rem;
+   margin-right: 0;
+   border-radius: 50%;
+   background: var(--text);
+   opacity: 0;
+   transform: translateY(-50%) scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+   z-index: 2;
     }
 
     .track.active .track-playing {
@@ -465,7 +465,7 @@
 
     .manifesto-panel {
       background: var(--page);
-      border-top: 1px solid var(--line);
+      border-top: 3px solid var(--line);
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.45s ease;
