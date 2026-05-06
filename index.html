@@ -465,11 +465,20 @@
 
     .panel-stats {
       text-align: right;
-      font-size: var(--stats-size);
-      line-height: var(--stats-leading);
-      letter-spacing: var(--meta-tracking);
+      font-size: var(--desc-size);
+      line-height: var(--desc-leading);
+      letter-spacing: var(--desc-tracking);
       white-space: nowrap;
       color: var(--muted);
+    }
+
+    .panel-stats a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .panel-stats a:hover {
+      color: var(--text);
     }
 
     .manifesto-panel {
@@ -659,6 +668,7 @@ const users = [
     role: "Designer",
     location: "Paris",
     uploadDate: "2026-03-19",
+    instagram: "https://www.instagram.com/casper_tristan/",
     tracks: [
       { title: "Cherry-coloured Funk", artist: "Cocteau Twins", url: "Cocteau_Twins_Cherry_coloured_Funk.mp3" },
       { title: "E Depois Do Adeus", artist: "Paulo de Carvalho", url: "E_Depois_Do_Adeus.mp3" },
@@ -680,6 +690,7 @@ const users = [
     role: "Musicien",
     location: "London",
     uploadDate: "2026-04-29",
+    instagram: "https://www.instagram.com/",
     description: "Some of the sounds that have been living on my hard drive. Not a release, just things I keep returning to.",
     tracks: [
       { title: "Back Together", artist: "Hardsoul, Ron Carrol", url: "trimmed_Back Together (Main Classic Mix).mp3" },
@@ -702,6 +713,7 @@ const users = [
     role: "DJ / Selector",
     location: "Berlin",
     uploadDate: "2026-04-28",
+    instagram: "https://www.instagram.com/",
     description: "Club tools and ambient adjacents. Stuff for the booth and stuff for the journey home.",
     tracks: [
       { title: "Ce matin-La - Vegyn Version", artist: "Air, Vegyn", url: "trimmed_AIR - Ce matin-là (from Moon Safari - Official Audio).mp3" },
@@ -851,6 +863,10 @@ function buildPanel(user) {
     </li>
   `).join("");
 
+  const instagramLine = user.instagram
+    ? `<a href="${user.instagram}" target="_blank" rel="noopener noreferrer">Insta</a>`
+    : "Insta";
+
   return `
     <div class="panel-inner">
       <div class="panel-header">
@@ -864,7 +880,7 @@ function buildPanel(user) {
         <p class="panel-desc">${user.description}</p>
         <div class="panel-stats">
           Uploaded ${user.uploadDate} 23:32<br>
-          Insta
+          ${instagramLine}
         </div>
       </div>
     </div>
