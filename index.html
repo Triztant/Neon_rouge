@@ -105,8 +105,8 @@
       --track-copy-column-width: 0px;
       --active-bar-height: 3px;
       --active-bar-bottom: 0px;
-      --active-bar-right: 0px;
-      --dot-offset: -120%;
+            --dot-offset: calc(-0.75 * var(--panel-padding-left));
+      --dot-offset-mobile: calc(-0.75 * var(--mobile-panel-padding-left));
       --dot-offset-mobile: -110%;
 
       /* Footer text */
@@ -370,8 +370,8 @@
     position: absolute;
     left: -80%;
     top: 50%;
-    width: 0.35rem;
-    height: 0.35rem;
+         width: 0.38em;
+      height: 0.38em;
    margin-right: 0;
    border-radius: 50%;
    background: var(--text);
