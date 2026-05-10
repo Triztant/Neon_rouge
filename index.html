@@ -207,7 +207,7 @@
       border: none;
       background: transparent;
       color: var(--text);
-      font-family: var(--font-meta);
+      font-family: "Times New Roman", Times, serif;
       font-size: 11px;
       line-height: 1;
       letter-spacing: 0.16em;
@@ -375,6 +375,7 @@
       display: inline-flex;
       align-items: center;
       gap: var(--dot-gap);
+      cursor: pointer;
     }
 
    .track-playing {
@@ -398,6 +399,7 @@
     .track-artist {
       position: relative;
       z-index: 1;
+      cursor: pointer;
     }
 
     .track-copy {
@@ -858,7 +860,7 @@ function selectUser(id, clickedRow = null) {
 
 function buildPanel(user) {
   const trackItems = user.tracks.map((t, i) => `
-    <li class="track" data-index="${i}" data-url="${localAudioPath(t)}">
+    <li class="track" data-index="${i}" data-url="${localAudioPath(t)}" title="Play ${t.title} by ${t.artist || user.name}">
       <span class="track-title"><span class="track-playing"></span>${t.title}</span>
       <span class="track-artist">${t.artist || user.name}</span>
       <button class="track-copy" type="button" data-copy="${t.title} — ${t.artist || user.name}">COPY</button>
