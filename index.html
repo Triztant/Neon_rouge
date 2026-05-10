@@ -165,15 +165,18 @@
 
     #audio-player { display: none; }
 
-    header {
-      width: 100%;
-      margin: 0;
-      background: var(--page);
-      border: none;
-      padding: 18px 38px 14px 38px;
-      position: relative;
-      min-height: 44px;
-    }
+header {
+  width: 100%;
+  margin: 0;
+  background: var(--page);
+  border: none;
+  padding: 1rem 3vw;
+  position: relative;
+  min-height: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
     .logo-mark { display: none; }
 
@@ -195,13 +198,11 @@
       padding: var(--header-padding-top) var(--header-padding-right) var(--header-padding-bottom) var(--header-padding-left);
     }
 
-    nav {
-      position: absolute;
-      top: 1.8rem;
-      right: 38px;
-      z-index: 20;
-      display: block;
-    }
+nav {
+  position: static;
+  z-index: 20;
+  display: block;
+}
 
     #manifesto-button {
       border: none;
@@ -519,11 +520,6 @@
         --page-width: 100%;
       }
 
-      nav {
-        top: 1.6rem;
-        right: 22px;
-      }
-
       header,
       .layout {
         width: 100%;
@@ -532,9 +528,8 @@
       }
 
       header {
-        padding: 16px 22px 12px 22px;
-        min-height: 38px;
-        
+        padding: 0.9rem 5vw;
+        min-height: 3rem;
       }
 
       .logo-image {
@@ -585,7 +580,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-
 
       .track-copy {
         font-size: 9px;
@@ -868,7 +862,7 @@ function buildPanel(user) {
   `).join("");
 
   const instagramLine = user.instagram
-    ? `<a href="${user.instagram}" target="_blank" rel="noopener noreferrer">Insta</a>`
+    ? `<a href="${user.instagram}" target="_blank" rel="noopener noreferrer">Instagram</a>`
     : "Instagram";
 
   return `
